@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 
 import { nodeAffinityValues } from '@/kubernetes/filters/application';
 
-import { Affinity, Label, Node, Taint } from './types';
+import { Affinity, Label, Node, Taint } from '../types';
 
 interface SubRowProps {
   isAdmin: boolean;

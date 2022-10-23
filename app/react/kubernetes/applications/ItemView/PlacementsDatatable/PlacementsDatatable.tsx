@@ -1,6 +1,5 @@
-import { CellProps, Column, HeaderProps } from 'react-table';
 import { useStore } from 'zustand';
-import { Check, ChevronDown, ChevronUp, X, Minimize2 } from 'lucide-react';
+import { Minimize2 } from 'lucide-react';
 
 import { useUser } from '@/react/hooks/useUser';
 
@@ -11,72 +10,15 @@ import {
   RefreshableTableSettings,
 } from '@@/datatables/types';
 import { useSearchBarState } from '@@/datatables/SearchBar';
-import { Button } from '@@/buttons';
-import { Icon } from '@@/Icon';
 import { ExpandableDatatable } from '@@/datatables/ExpandableDatatable';
 import { useRepeater } from '@@/datatables/useRepeater';
 import { TableSettingsMenu } from '@@/datatables';
 import { TableSettingsMenuAutoRefresh } from '@@/datatables/TableSettingsMenuAutoRefresh';
 
-import { Node } from './types';
+import { Node } from '../types';
+
 import { SubRow } from './PlacementsDatatableSubRow';
-
-const columns: Column<Node>[] = [
-  {
-    id: 'expand',
-    Header: ({
-      filteredFlatRows,
-      getToggleAllRowsExpandedProps,
-      isAllRowsExpanded,
-    }: HeaderProps<Node>) => {
-      const hasExpandableItems = filteredFlatRows.some(
-        (item) => !item.original.AcceptsApplication
-      );
-
-      return (
-        hasExpandableItems && (
-          <Button
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...getToggleAllRowsExpandedProps()}
-            color="none"
-            icon={isAllRowsExpanded ? ChevronDown : ChevronUp}
-          />
-        )
-      );
-    },
-    Cell: ({ row }: CellProps<Node>) => (
-      <div className="vertical-center">
-        {!row.original.AcceptsApplication && (
-          <Button
-            /*  eslint-disable-next-line react/jsx-props-no-spreading */
-            {...row.getToggleRowExpandedProps()}
-            color="none"
-            icon={row.isExpanded ? ChevronDown : ChevronUp}
-          />
-        )}
-        <Icon
-          icon={row.original.AcceptsApplication ? Check : X}
-          mode={row.original.AcceptsApplication ? 'success' : 'danger'}
-          size="sm"
-        />
-      </div>
-    ),
-    disableFilters: true,
-    Filter: () => null,
-    canHide: false,
-    width: 70,
-    disableResizing: true,
-  },
-  {
-    Header: 'Node',
-    accessor: (row) => row.Name,
-    id: 'node',
-    disableFilters: true,
-    Filter: () => null,
-    canHide: false,
-    sortType: 'string',
-  },
-];
+import { columns } from './columns';
 
 interface TableSettings extends BasicTableSettings, RefreshableTableSettings {}
 
