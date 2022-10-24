@@ -1,9 +1,9 @@
 import { CellProps, Column } from 'react-table';
 import { useStore } from 'zustand';
-import { FileText, List, Trash2 } from 'react-feather';
+import { FileText, List, Trash2 } from 'lucide-react';
 import clsx from 'clsx';
 
-import { useUser } from '@/portainer/hooks/useUser';
+import { useUser } from '@/react/hooks/useUser';
 import KubernetesNamespaceHelper from '@/kubernetes/helpers/namespaceHelper';
 import KubernetesApplicationHelper from '@/kubernetes/helpers/application';
 
