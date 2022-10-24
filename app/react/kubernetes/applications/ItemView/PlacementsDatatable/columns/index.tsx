@@ -1,11 +1,14 @@
 import { Column } from 'react-table';
 
+import { buildExpandColumn } from '@@/datatables/expand-column';
+
 import { Node } from '../../types';
 
-import { expand } from './expand';
+import { status } from './status';
 
 export const columns: Column<Node>[] = [
-  expand,
+  buildExpandColumn((item) => !item.AcceptsApplication),
+  status,
   {
     Header: 'Node',
     accessor: 'Name',
