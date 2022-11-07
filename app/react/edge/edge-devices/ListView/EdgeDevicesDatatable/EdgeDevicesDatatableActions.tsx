@@ -70,7 +70,7 @@ export function EdgeDevicesDatatableActions({
 
   async function onDeleteEdgeDeviceClick() {
     const confirmed = await confirmDestructiveAsync({
-      title: 'Are you sure ?',
+      title: 'Are you sure?',
       message:
         'This action will remove all configurations associated to your environment(s). Continue?',
       buttons: {

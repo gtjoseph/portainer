@@ -1,4 +1,5 @@
 import angular from 'angular';
+import { confirm } from '@/portainer/services/modal.service/confirm';
 
 class KubernetesResourcePoolsController {
   /* @ngInject */
@@ -53,10 +54,14 @@ class KubernetesResourcePoolsController {
     const message = isTerminatingNS
       ? 'At least one namespace is in a terminating state. For terminating state namespaces, you may continue and force removal, but doing so without having properly cleaned up may lead to unstable and unpredictable behavior. Are you sure you wish to proceed?'
       : 'Do you want to remove the selected namespace(s)? All the resources associated to the selected namespace(s) will be removed too. Are you sure you wish to proceed?';
-    this.ModalService.confirmWithTitle(isTerminatingNS ? 'Force namespace removal' : 'Are you sure?', message, (confirmed) => {
-      if (confirmed) {
-        return this.$async(this.removeActionAsync, selectedItems);
-      }
+    confirm({
+      title: isTerminatingNS ? 'Force namespace removal' : 'Are you sure?',
+      message,
+      callback: (confirmed) => {
+        if (confirmed) {
+          return this.$async(this.removeActionAsync, selectedItems);
+        }
+      },
     });
   }
 

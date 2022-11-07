@@ -1,4 +1,4 @@
-import { confirmDestructive } from '@/portainer/services/modal.service/confirm';
+import { confirmDestructiveAsync } from '@/portainer/services/modal.service/confirm';
 import { Settings } from '@/react/portainer/settings/types';
 
 import { FormSectionTitle } from '@@/form-components/FormSectionTitle';
@@ -19,9 +19,9 @@ export function InternalAuth({
   value,
   onChange,
 }: Props) {
-  function onSubmit() {
+  async function onSubmit() {
     if (value.RequiredPasswordLength < 10) {
-      confirmDestructive({
+      const confirmed = await confirmDestructiveAsync({
         title: 'Allow weak passwords?',
         message:
           'You have set an insecure minimum password length. This could leave your system vulnerable to attack, are you sure?',
@@ -31,10 +31,11 @@ export function InternalAuth({
             className: 'btn-danger',
           },
         },
-        callback: function onConfirm(confirmed) {
-          if (confirmed) onSaveSettings();
-        },
       });
+
+      if (confirmed) {
+        onSaveSettings();
+      }
     } else {
       onSaveSettings();
     }

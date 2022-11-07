@@ -89,7 +89,7 @@ export function FDOProfilesDatatableActions({
 
   async function onDeleteProfileClick() {
     const confirmed = await confirmDestructiveAsync({
-      title: 'Are you sure ?',
+      title: 'Are you sure?',
       message: 'This action will delete the selected profile(s). Continue?',
       buttons: {
         confirm: {

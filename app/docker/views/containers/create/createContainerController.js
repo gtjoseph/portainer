@@ -2,6 +2,7 @@ import _ from 'lodash-es';
 
 import { PorImageRegistryModel } from 'Docker/models/porImageRegistry';
 
+import { confirmDestructiveAsync } from '@/portainer/services/modal.service/confirm';
 import * as envVarsUtils from '@/portainer/helpers/env-vars';
 import { FeatureId } from '@/react/portainer/feature-flags/enums';
 import { ContainerCapabilities, ContainerCapability } from '../../../models/containerCapabilities';
@@ -992,7 +993,7 @@ angular.module('portainer.docker').controller('CreateContainerController', [
         function showConfirmationModal() {
           var deferred = $q.defer();
 
-          ModalService.confirmDestructive({
+          confirmDestructiveAsync({
             title: 'Are you sure ?',
             message: 'A container with the same name already exists. Portainer can automatically remove it and re-create one. Do you want to replace it?',
             buttons: {
@@ -1001,9 +1002,8 @@ angular.module('portainer.docker').controller('CreateContainerController', [
                 className: 'btn-danger',
               },
             },
-            callback: function onConfirm(confirmed) {
-              deferred.resolve(confirmed);
-            },
+          }).then(function onConfirm(confirmed) {
+            deferred.resolve(confirmed);
           });
 
           return deferred.promise;

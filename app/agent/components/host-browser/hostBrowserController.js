@@ -95,7 +95,7 @@ export class HostBrowserController {
   confirmDeleteFile(name) {
     const filePath = this.buildPath(this.state.path, name);
 
-    this.ModalService.confirmDeletion(`Are you sure that you want to delete ${this.getRelativePath(filePath)} ?`, (confirmed) => {
+    this.ModalService.confirmDeletion(`Are you sure that you want to delete ${this.getRelativePath(filePath)}?`, (confirmed) => {
       if (!confirmed) {
         return;
       }

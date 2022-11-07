@@ -4,8 +4,6 @@ import bootbox from 'bootbox';
 import {
   cancelRegistryRepositoryAction,
   confirmAsync,
-  confirmWarn,
-  confirmDestructive,
   confirmDestructiveAsync,
   confirmDisassociate,
   confirmDeletion,
@@ -13,13 +11,11 @@ import {
   confirmDeletionAsync,
   confirmChangePassword,
   confirmImageExport,
-  confirmImageForceRemoval,
   confirmRedeploy,
   confirmUpdate,
   confirmWebEditorDiscard,
   confirm,
   confirmForceChangePassword,
-  confirmWithTitle,
 } from './confirm';
 import {
   confirmContainerDeletion,
@@ -45,11 +41,8 @@ export function ModalServiceAngular() {
     enlargeImage,
     confirmWebEditorDiscard,
     confirmAsync,
-    confirmWarn,
-    confirmDestructive,
     confirmDestructiveAsync,
     confirm,
-    confirmImageForceRemoval,
     cancelRegistryRepositoryAction,
     confirmDeletion,
     confirmDetachment,
@@ -65,6 +58,5 @@ export function ModalServiceAngular() {
     selectRegistry,
     confirmContainerDeletion,
     confirmForceChangePassword,
-    confirmWithTitle,
   };
 }

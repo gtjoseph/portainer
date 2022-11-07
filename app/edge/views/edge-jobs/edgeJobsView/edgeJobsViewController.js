@@ -15,7 +15,7 @@ export class EdgeJobsViewController {
   }
 
   removeAction(selectedItems) {
-    this.ModalService.confirmDeletion('Do you want to remove the selected edge job(s) ?', (confirmed) => {
+    this.ModalService.confirmDeletion('Do you want to remove the selected edge job(s)?', (confirmed) => {
       if (!confirmed) {
         return;
       }

@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { AlertTriangle, Database } from 'lucide-react';
 import { useStore } from 'zustand';
 
-import { confirmWarn } from '@/portainer/services/modal.service/confirm';
+import { confirm } from '@/portainer/services/modal.service/confirm';
+import { ModalTypeIcon } from '@/portainer/services/modal.service/utils';
 
 import { Datatable } from '@@/datatables';
 import { Button, ButtonGroup } from '@@/buttons';
@@ -194,20 +195,26 @@ export function IngressClassDatatable({
       );
 
       if (usedControllersToDisallow.length > 0) {
-        const usedControllerHtmlListItems = usedControllersToDisallow.map(
-          (controller) => `<li>${controller.ClassName}</li>`
-        );
-        const usedControllerHtmlList = `<ul class="ml-6">${usedControllerHtmlListItems.join(
-          ''
-        )}</ul>`;
-        confirmWarn({
+        confirm({
           title: 'Disallow in-use ingress controllers?',
-          message: `
+          modalType: ModalTypeIcon.Warn,
+          message: (
             <div>
-              <p>There are ingress controllers you want to disallow that are in use:</p>
-              ${usedControllerHtmlList}
-              <p>No new ingress rules can be created for the disallowed controllers.</p>
-            </div>`,
+              <p>
+                There are ingress controllers you want to disallow that are in
+                use:
+              </p>
+              <ul className="ml-6">
+                {usedControllersToDisallow.map((controller) => (
+                  <li key={controller.ClassName}>${controller.ClassName}</li>
+                ))}
+              </ul>
+              <p>
+                No new ingress rules can be created for the disallowed
+                controllers.
+              </p>
+            </div>
+          ),
           buttons: {
             cancel: {
               label: 'Cancel',
