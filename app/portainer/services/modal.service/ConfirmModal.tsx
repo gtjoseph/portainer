@@ -1,6 +1,6 @@
 import { openDialog, Options } from './Dialog';
 
-export type ConfirmCallback = (confirmed: boolean) => void;
+export type ConfirmCallback = (confirmed?: boolean) => void;
 
 export interface ConfirmAsyncOptions extends Omit<Options, 'title'> {
   title: string;
