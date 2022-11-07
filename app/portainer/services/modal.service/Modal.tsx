@@ -1,27 +1,37 @@
-import { DialogOverlay } from '@reach/dialog';
+import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { ComponentType, PropsWithChildren } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
-type OnSubmit<TResult> = (result?: TResult) => void;
+export type OnSubmit<TResult> = (result?: TResult) => void;
 
 interface Props<TResult> {
   onSubmit: OnSubmit<TResult>;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
 }
 
 export function Modal<TResult>({
   children,
   onSubmit,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
 }: PropsWithChildren<Props<TResult>>) {
   return (
     <DialogOverlay
       isOpen
       className="flex items-center justify-center z-50"
-      onDismiss={() => onSubmit()}
+      onDismiss={() => {
+        onSubmit();
+      }}
       role="dialog"
     >
-      <div className="modal-dialog">
+      <DialogContent
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
+        className="modal-dialog p-0 bg-transparent"
+      >
         <div className="modal-content">{children}</div>
-      </div>
+      </DialogContent>
     </DialogOverlay>
   );
 }
@@ -57,7 +67,7 @@ type ModalBodyProps<TResult> =
 export function ModalBody<TResult>({
   children,
   ...props
-}: PropsWithChildren<ModalBodyProps<TResult>>) {
+}: PropsWithChildren<unknown> & ModalBodyProps<TResult>) {
   return (
     <div className="modal-body">
       {props.isCloseButtonVisible && (
@@ -81,7 +91,7 @@ export function ModalFooter({ children }: PropsWithChildren<unknown>) {
 let counter = 0;
 export async function openModal<TProps, TResult>(
   Modal: ComponentType<{ onSubmit: OnSubmit<TResult> } & TProps>,
-  props: TProps
+  props: TProps = {} as TProps
 ) {
   const modal = document.createElement('div');
   counter += 1;
@@ -97,6 +107,7 @@ export async function openModal<TProps, TResult>(
   });
 
   unmountComponentAtNode(modal);
+  document.body.removeChild(modal);
 
   return result;
 }

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 
 import { Button } from '@@/buttons';
 
@@ -19,7 +19,7 @@ interface Props extends Options {
 
 export function Dialog({ buttons, message, title, onSubmit }: Props) {
   return (
-    <Modal onSubmit={onSubmit}>
+    <Modal onSubmit={onSubmit} aria-label={title || String(message)}>
       {title && <ModalTitle title={title} onSubmit={onSubmit} />}
       <ModalBody<boolean>
         onSubmit={onSubmit}
@@ -29,23 +29,51 @@ export function Dialog({ buttons, message, title, onSubmit }: Props) {
       </ModalBody>
       <ModalFooter>
         {buttons.cancel && (
-          <Button
-            className={clsx('bootbox-cancel', buttons.cancel.className)}
-            onClick={() => onSubmit(false)}
+          <DialogButton
+            accept={false}
+            onClick={onSubmit}
+            label={buttons.cancel.label}
+            className={buttons.cancel.className}
             color={buttons.cancel.color}
-          >
-            {buttons.cancel.label}
-          </Button>
+          />
         )}
-        <Button
-          className={clsx('bootbox-accept', buttons.confirm.className)}
-          onClick={() => onSubmit(true)}
+
+        <DialogButton
+          accept
+          onClick={onSubmit}
+          label={buttons.confirm.label}
+          className={buttons.confirm.className}
           color={buttons.confirm.color}
-        >
-          {buttons.confirm.label}
-        </Button>
+        />
       </ModalFooter>
     </Modal>
+  );
+}
+
+export function DialogButton({
+  accept,
+  className,
+  onClick,
+  label,
+  color,
+}: {
+  accept: boolean;
+  className?: string;
+  onClick: (confirmed?: boolean) => void;
+  label: string;
+  color: ComponentProps<typeof Button>['color'];
+}) {
+  return (
+    <Button
+      className={clsx(
+        { 'bootbox-accept': accept, 'bootbox-cancel': !accept },
+        className
+      )}
+      onClick={() => onClick(accept)}
+      color={color}
+    >
+      {label}
+    </Button>
   );
 }
 
