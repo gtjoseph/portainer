@@ -1,3 +1,5 @@
+import { openDialog } from '@/portainer/services/modal.service/Dialog';
+
 angular.module('portainer.app').controller('AccountController', [
   '$scope',
   '$state',
@@ -56,8 +58,9 @@ angular.module('portainer.app').controller('AccountController', [
           return true;
         }
       }
+
       if ($scope.forceChangePassword) {
-        ModalService.confirmForceChangePassword();
+        confirmForceChangePassword();
       }
       return !$scope.forceChangePassword;
     };
@@ -117,7 +120,7 @@ angular.module('portainer.app').controller('AccountController', [
       const userDetails = Authentication.getUserDetails();
       $scope.userID = userDetails.ID;
       $scope.userRole = Authentication.getUserDetails().role;
-      $scope.forceChangePassword = userDetails.forceChangePassword;
+      $scope.forceChangePassword = true; //userDetails.forceChangePassword;
       $scope.isInitialAdmin = userDetails.ID === 1;
 
       if (state.application.demoEnvironment.enabled) {
@@ -160,3 +163,15 @@ angular.module('portainer.app').controller('AccountController', [
     initView();
   },
 ]);
+
+function confirmForceChangePassword() {
+  openDialog({
+    message: 'Please update your password to a stronger password to continue using Portainer',
+    buttons: {
+      confirm: {
+        label: 'OK',
+        className: 'btn-primary',
+      },
+    },
+  });
+}

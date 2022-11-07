@@ -1,8 +1,11 @@
 import sanitize from 'sanitize-html';
 
+import { Props as ButtonComponentProps } from '@@/buttons/Button';
+
 interface Button {
   label: string;
   className?: string;
+  color?: ButtonComponentProps['color'];
 }
 
 export interface ButtonsOptions {
@@ -21,6 +24,7 @@ export function confirmButtons(options: ButtonsOptions) {
       label: sanitize(options.confirm.label),
       className:
         options.confirm.className && sanitize(options.confirm.className),
+      color: options.confirm.color,
     },
     cancel: {
       label:
@@ -28,6 +32,7 @@ export function confirmButtons(options: ButtonsOptions) {
           ? sanitize(options.cancel.label)
           : 'Cancel',
       className: 'btn-default',
+      color: options.cancel && options.cancel.color,
     },
   };
 }

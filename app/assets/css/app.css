@@ -665,10 +665,6 @@ input[type='checkbox'] {
   padding-right: 0 !important;
 }
 
-.image-zoom-modal .modal-dialog {
-  width: 80%;
-}
-
 /*!bootbox override*/
 
 /*toaster override*/

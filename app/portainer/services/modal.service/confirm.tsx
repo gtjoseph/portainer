@@ -5,9 +5,12 @@ import { applyBoxCSS, confirmButtons, ModalTypeIcon } from './utils';
 import {
   ConfirmAsyncOptions,
   ConfirmCallback,
-  ConfirmOptions,
   openConfirm,
 } from './ConfirmModal';
+
+interface ConfirmOptions extends ConfirmAsyncOptions {
+  callback: ConfirmCallback;
+}
 
 export function confirmAsync(options: ConfirmAsyncOptions) {
   return openConfirm({
