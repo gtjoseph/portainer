@@ -21,10 +21,7 @@ function DeployTypePrompt({
 
   return (
     <Modal onSubmit={() => onSubmit()} aria-label="deploy type prompt">
-      <Modal.Header
-        onSubmit={() => onSubmit()}
-        title="How would you like to add an Edge Device?"
-      />
+      <Modal.Header title="How would you like to add an Edge Device?" />
 
       <Modal.Body>
         <label className="inline-flex items-center pt-3">

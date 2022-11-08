@@ -27,7 +27,7 @@ function UpdateIngressPrompt({
 
   return (
     <Modal onSubmit={() => onSubmit()} aria-label={title}>
-      <Modal.Header onSubmit={() => onSubmit()} title={title} />
+      <Modal.Header title={title} />
 
       <Modal.Body>
         <ul className="ml-3">

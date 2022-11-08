@@ -29,11 +29,7 @@ function SwitchPrompt({
 
   return (
     <Modal onSubmit={() => onSubmit()} aria-label={title}>
-      <Modal.Header
-        onSubmit={() => onSubmit()}
-        title={title}
-        modalType={modalType}
-      />
+      <Modal.Header title={title} modalType={modalType} />
 
       <Modal.Body>
         {message && <div className="mb-3">{message}</div>}

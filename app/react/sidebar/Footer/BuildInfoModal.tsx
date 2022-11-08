@@ -50,8 +50,8 @@ function BuildInfoModal({ closeModal }: { closeModal: () => void }) {
   const { ServerVersion, DatabaseVersion, Build } = versionQuery.data;
 
   return (
-    <Modal onSubmit={closeModal}>
-      <Modal.Header onSubmit={closeModal} title={`Portainer ${Edition}`} />
+    <Modal onSubmit={closeModal} aria-label="build-info-modal">
+      <Modal.Header title={`Portainer ${Edition}`} />
       <Modal.Body>
         <div className={styles.versionInfo}>
           <table>

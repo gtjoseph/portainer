@@ -21,13 +21,8 @@ interface Props extends Options {
 export function Dialog({ buttons, message, title, onSubmit }: Props) {
   return (
     <Modal onSubmit={onSubmit} aria-label={title || String(message)}>
-      {title && <Modal.Header title={title} onSubmit={onSubmit} />}
-      <Modal.Body<boolean>
-        onSubmit={onSubmit}
-        isCloseButtonVisible={!title ? true : (!title as never)}
-      >
-        {message}
-      </Modal.Body>
+      {title && <Modal.Header title={title} />}
+      <Modal.Body<boolean> isCloseButtonVisible={!title}>{message}</Modal.Body>
       <Modal.Footer>
         {buttons.cancel && (
           <DialogButton

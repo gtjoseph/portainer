@@ -51,7 +51,7 @@ export function KubeconfigPrompt({
 
   return (
     <Modal aria-label="Kubeconfig View" onSubmit={onClose}>
-      <Modal.Header onSubmit={onClose} title="Download kubeconfig file" />
+      <Modal.Header title="Download kubeconfig file" />
 
       <Modal.Body>
         <div>

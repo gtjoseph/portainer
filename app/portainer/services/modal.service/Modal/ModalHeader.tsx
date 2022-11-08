@@ -3,20 +3,17 @@ import clsx from 'clsx';
 import { ModalType } from '../types';
 
 import { CloseButton } from './CloseButton';
+import { useModalContext } from './Modal';
 import styles from './ModalHeader.module.css';
-import { OnSubmit } from './types';
 
-interface Props<TResult> {
-  onSubmit: OnSubmit<TResult>;
+interface Props {
   title: string;
   modalType?: ModalType;
 }
 
-export function ModalHeader<TResult>({
-  title,
-  modalType,
-  onSubmit,
-}: Props<TResult>) {
+export function ModalHeader<TResult>({ title, modalType }: Props) {
+  const { onSubmit } = useModalContext<TResult>();
+
   return (
     <div className={styles.modalHeader}>
       <CloseButton onClose={onSubmit} className={styles.close} />

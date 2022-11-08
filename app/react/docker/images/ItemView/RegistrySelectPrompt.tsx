@@ -21,7 +21,7 @@ function RegistrySelectPrompt({ onSubmit, defaultValue, registries }: Props) {
 
   return (
     <Modal onSubmit={() => onSubmit()} aria-label={title}>
-      <Modal.Header onSubmit={() => onSubmit()} title={title} />
+      <Modal.Header title={title} />
 
       <Modal.Body>
         <PortainerSelect

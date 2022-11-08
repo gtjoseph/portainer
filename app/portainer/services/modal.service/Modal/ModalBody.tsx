@@ -1,25 +1,22 @@
 import { PropsWithChildren } from 'react';
 
-import { OnSubmit } from './types';
 import styles from './ModalBody.module.css';
 import { CloseButton } from './CloseButton';
+import { useModalContext } from './Modal';
 
-type ModalBodyProps<TResult> =
-  | {
-      onSubmit: OnSubmit<TResult>;
-      isCloseButtonVisible: true;
-    }
-  | {
-      isCloseButtonVisible?: undefined;
-    };
+interface Props {
+  isCloseButtonVisible?: boolean;
+}
 
-export function ModalBody<TResult>({
+export function ModalBody<TResult = unknown>({
   children,
-  ...props
-}: PropsWithChildren<unknown> & ModalBodyProps<TResult>) {
+  isCloseButtonVisible,
+}: PropsWithChildren<Props>) {
+  const { onSubmit } = useModalContext<TResult>();
+
   return (
     <div className={styles.modalBody}>
-      {props.isCloseButtonVisible && <CloseButton onClose={props.onSubmit} />}
+      {isCloseButtonVisible && <CloseButton onClose={onSubmit} />}
       <div className={styles.bootboxBody}>{children}</div>
     </div>
   );
