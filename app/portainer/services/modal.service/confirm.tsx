@@ -1,7 +1,6 @@
 import sanitize from 'sanitize-html';
-import bootbox from 'bootbox';
 
-import { applyBoxCSS, confirmButtons, ModalTypeIcon } from './utils';
+import { confirmButtons, ModalTypeIcon } from './utils';
 import {
   ConfirmAsyncOptions,
   ConfirmCallback,
@@ -205,19 +204,4 @@ export function confirmChangePassword() {
       },
     },
   });
-}
-
-export function confirmForceChangePassword() {
-  const box = bootbox.dialog({
-    message:
-      'Please update your password to a stronger password to continue using Portainer',
-    buttons: {
-      confirm: {
-        label: 'OK',
-        className: 'btn-primary',
-      },
-    },
-  });
-
-  applyBoxCSS(box);
 }

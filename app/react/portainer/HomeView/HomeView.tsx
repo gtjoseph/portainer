@@ -6,7 +6,7 @@ import { snapshotEndpoints } from '@/react/portainer/environments/environment.se
 import { isEdgeEnvironment } from '@/react/portainer/environments/utils';
 import * as notifications from '@/portainer/services/notifications';
 import { confirmAsync } from '@/portainer/services/modal.service/confirm';
-import { buildTitle } from '@/portainer/services/modal.service/utils';
+import { ModalTypeIcon } from '@/portainer/services/modal.service/utils';
 
 import { PageHeader } from '@@/PageHeader';
 
@@ -73,7 +73,8 @@ export function HomeView() {
 
 async function confirmEndpointSnapshot() {
   return confirmAsync({
-    title: buildTitle('Are you sure?'),
+    title: 'Are you sure?',
+    modalType: ModalTypeIcon.Warn,
     message:
       'Triggering a manual refresh will poll each environment to retrieve its information, this may take a few moments.',
     buttons: {
