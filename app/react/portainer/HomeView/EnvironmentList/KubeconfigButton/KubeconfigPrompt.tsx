@@ -1,7 +1,5 @@
-import { X } from 'lucide-react';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { DialogOverlay } from '@reach/dialog';
 
 import { downloadKubeconfigFile } from '@/react/kubernetes/services/kubeconfig.service';
 import * as notifications from '@/portainer/services/notifications';
@@ -12,6 +10,12 @@ import {
   Query,
   useEnvironmentList,
 } from '@/react/portainer/environments/queries/useEnvironmentList';
+import {
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalTitle,
+} from '@/portainer/services/modal.service/Modal';
 
 import { PaginationControls } from '@@/PaginationControls';
 import { Checkbox } from '@@/form-components/Checkbox';
@@ -19,7 +23,6 @@ import { Button } from '@@/buttons';
 
 import { useSelection } from './KubeconfigSelection';
 import styles from './KubeconfigPrompt.module.css';
-import '@reach/dialog/styles.css';
 
 export interface KubeconfigPromptProps {
   envQueryParams: Query;
@@ -52,82 +55,69 @@ export function KubeconfigPrompt({
   const isAllPageSelected = environments.every((env) => selection[env.Id]);
 
   return (
-    <DialogOverlay
-      className={styles.dialog}
-      aria-label="Kubeconfig View"
-      role="dialog"
-    >
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <button type="button" className="close" onClick={onClose}>
-              <X />
-            </button>
-            <h5 className="modal-title">Download kubeconfig file</h5>
+    <Modal aria-label="Kubeconfig View" onSubmit={onClose}>
+      <ModalTitle onSubmit={onClose} title="Download kubeconfig file" />
+
+      <ModalBody>
+        <div>
+          <span>
+            Select the kubernetes environments to add to the kubeconfig file.
+            You may select across multiple pages.
+          </span>
+          <span className="space-left">{expiryQuery.data}</span>
+        </div>
+
+        <div className="h-8 flex items-center mt-2">
+          <Checkbox
+            id="settings-container-truncate-name"
+            label="Select all (in this page)"
+            checked={isAllPageSelected}
+            onChange={handleSelectAll}
+          />
+        </div>
+        <div className="datatable">
+          <div className={styles.checkboxList}>
+            {environments
+              .filter((env) => env.Status <= 2)
+              .map((env) => (
+                <div
+                  key={env.Id}
+                  className={clsx(
+                    styles.checkbox,
+                    'h-8 flex items-center pt-1'
+                  )}
+                >
+                  <Checkbox
+                    id={`${env.Id}`}
+                    label={`${env.Name} (${env.URL})`}
+                    checked={!!selection[env.Id]}
+                    onChange={() => toggleSelection(env.Id, !selection[env.Id])}
+                  />
+                </div>
+              ))}
           </div>
-          <div className="modal-body">
-            <form className="bootbox-form">
-              <div className="bootbox-prompt-message">
-                <span>
-                  Select the kubernetes environments to add to the kubeconfig
-                  file. You may select across multiple pages.
-                </span>
-                <span className="space-left">{expiryQuery.data}</span>
-              </div>
-            </form>
-            <br />
-            <div className="h-8 flex items-center">
-              <Checkbox
-                id="settings-container-truncate-name"
-                label="Select all (in this page)"
-                checked={isAllPageSelected}
-                onChange={handleSelectAll}
-              />
-            </div>
-            <div className="datatable">
-              <div className="bootbox-checkbox-list">
-                {environments.map((env) => (
-                  <div
-                    key={env.Id}
-                    className={clsx(
-                      styles.checkbox,
-                      'h-8 flex items-center pt-1'
-                    )}
-                  >
-                    <Checkbox
-                      id={`${env.Id}`}
-                      label={`${env.Name} (${env.URL})`}
-                      checked={!!selection[env.Id]}
-                      onChange={() =>
-                        toggleSelection(env.Id, !selection[env.Id])
-                      }
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="pt-3 flex justify-end w-full">
-                <PaginationControls
-                  showAll={totalCount <= 100}
-                  page={page}
-                  onPageChange={setPage}
-                  pageLimit={pageLimit}
-                  onPageLimitChange={setPageLimit}
-                  totalCount={totalCount}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <Button onClick={onClose} color="default">
-              Cancel
-            </Button>
-            <Button onClick={handleDownload} disabled={selectionSize < 1}>
-              Download File
-            </Button>
+          <div className="pt-3 flex justify-end w-full">
+            <PaginationControls
+              showAll={totalCount <= 100}
+              page={page}
+              onPageChange={setPage}
+              pageLimit={pageLimit}
+              onPageLimitChange={setPageLimit}
+              totalCount={totalCount}
+            />
           </div>
         </div>
-      </div>
-    </DialogOverlay>
+      </ModalBody>
+
+      <ModalFooter>
+        <Button onClick={onClose} color="default">
+          Cancel
+        </Button>
+        <Button onClick={handleDownload} disabled={selectionSize < 1}>
+          Download File
+        </Button>
+      </ModalFooter>
+    </Modal>
   );
 
   function handleSelectAll() {

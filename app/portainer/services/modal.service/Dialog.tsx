@@ -65,10 +65,7 @@ export function DialogButton({
 }) {
   return (
     <Button
-      className={clsx(
-        { 'bootbox-accept': accept, 'bootbox-cancel': !accept },
-        className
-      )}
+      className={clsx('w-full', className)}
       onClick={() => onClick(accept)}
       color={color}
     >

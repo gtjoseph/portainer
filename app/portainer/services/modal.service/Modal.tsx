@@ -1,8 +1,11 @@
 import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { ComponentType, PropsWithChildren } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
+import clsx from 'clsx';
+import '@reach/dialog/styles.css';
 
 import { ModalTypeIcon } from './utils';
+import styles from './Modal.module.css';
 
 export type OnSubmit<TResult> = (result?: TResult) => void;
 
@@ -30,9 +33,9 @@ export function Modal<TResult>({
       <DialogContent
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
-        className="modal-dialog p-0 bg-transparent"
+        className={clsx(styles.modalDialog, 'p-0 bg-transparent')}
       >
-        <div className="modal-content">{children}</div>
+        <div className={styles.modalContent}>{children}</div>
       </DialogContent>
     </DialogOverlay>
   );
@@ -50,12 +53,19 @@ export function ModalTitle<TResult>({
   onSubmit,
 }: ModalTitleProps<TResult>) {
   return (
-    <div className="modal-header">
-      <button type="button" className="close" onClick={() => onSubmit()}>
+    <div className={styles.modalHeader}>
+      <button type="button" className={styles.close} onClick={() => onSubmit()}>
         ×
       </button>
-      {modalType && <div className={`background-${modalType}`} />}
-      <h5 className="modal-title">{title}</h5>
+      {modalType && (
+        <div
+          className={clsx({
+            [styles.backgroundError]: modalType === ModalTypeIcon.Destructive,
+            [styles.backgroundWarning]: modalType === ModalTypeIcon.Warn,
+          })}
+        />
+      )}
+      <h5 className={styles.modalTitle}>{title}</h5>
     </div>
   );
 }
@@ -74,23 +84,27 @@ export function ModalBody<TResult>({
   ...props
 }: PropsWithChildren<unknown> & ModalBodyProps<TResult>) {
   return (
-    <div className="modal-body">
+    <div className={styles.modalBody}>
       {props.isCloseButtonVisible && (
         <button
           type="button"
-          className="bootbox-close-button close"
+          className={styles.close}
           onClick={() => props.onSubmit()}
         >
           ×
         </button>
       )}
-      <div className="bootbox-body">{children}</div>
+      <div className={styles.bootboxBody}>{children}</div>
     </div>
   );
 }
 
 export function ModalFooter({ children }: PropsWithChildren<unknown>) {
-  return <div className="modal-footer flex justify-end">{children}</div>;
+  return (
+    <div className={clsx(styles.modalFooter, 'flex justify-end')}>
+      {children}
+    </div>
+  );
 }
 
 let counter = 0;
