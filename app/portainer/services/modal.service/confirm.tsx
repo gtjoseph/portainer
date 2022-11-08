@@ -12,29 +12,27 @@ import { confirmButtons } from './utils';
 
 export const confirmAsync = openConfirm;
 
-export function confirm(options: ConfirmOptions) {
-  return (async function innerConfirm() {
-    options.callback(
-      await confirmAsync({
-        title: options.title,
-        message: options.message,
-        buttons: confirmButtons(options.buttons),
-      })
-    );
-  })();
+export async function confirm(options: ConfirmOptions) {
+  const result = await openConfirm({
+    title: options.title,
+    message: options.message,
+    buttons: confirmButtons(options.buttons),
+  });
+
+  options.callback(result);
 }
 
 export function confirmDestructiveAsync(
   options: Omit<ConfirmAsyncOptions, 'modalType'>
 ) {
-  return confirmAsync({
+  return openConfirm({
     ...options,
     modalType: ModalType.Destructive,
   });
 }
 
 export function confirmWebEditorDiscard() {
-  return confirmAsync({
+  return openConfirm({
     modalType: ModalType.Warn,
     title: 'Are you sure?',
     message:
@@ -49,14 +47,9 @@ export function confirmWebEditorDiscard() {
 }
 
 export function confirmDeletionAsync(message: string) {
-  return new Promise((resolve) => {
-    confirmDeletion(message, (confirmed) => resolve(confirmed));
-  });
-}
-
-export function confirmDeletion(message: string, callback: ConfirmCallback) {
   const messageSanitized = sanitize(message);
-  confirm({
+
+  return openConfirm({
     title: 'Are you sure?',
     modalType: ModalType.Destructive,
     message: messageSanitized,
@@ -66,8 +59,15 @@ export function confirmDeletion(message: string, callback: ConfirmCallback) {
         className: 'btn-danger',
       },
     },
-    callback,
   });
+}
+
+export async function confirmDeletion(
+  message: string,
+  callback: ConfirmCallback
+) {
+  const result = await confirmDeletionAsync(message);
+  callback(result);
 }
 
 export function confirmUpdate(message: string, callback: ConfirmCallback) {
@@ -88,7 +88,7 @@ export function confirmUpdate(message: string, callback: ConfirmCallback) {
 }
 
 export function confirmChangePassword() {
-  return confirmAsync({
+  return openConfirm({
     modalType: ModalType.Warn,
     title: 'Are you sure?',
     message:
