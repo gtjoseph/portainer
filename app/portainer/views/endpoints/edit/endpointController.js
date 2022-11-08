@@ -10,6 +10,7 @@ import { isEdgeEnvironment } from '@/react/portainer/environments/utils';
 
 import { commandsTabs } from '@/react/edge/components/EdgeScriptForm/scripts';
 import { GpusListAngular } from '@/react/portainer/environments/wizard/EnvironmentsCreationView/shared/Hardware/GpusList';
+import { confirmDisassociate } from '@/react/portainer/environments/ItemView/ConfirmDisassociateModel';
 
 angular.module('portainer.app').component('gpusList', GpusListAngular).controller('EndpointController', EndpointController);
 
@@ -26,8 +27,7 @@ function EndpointController(
 
   Notifications,
   Authentication,
-  SettingsService,
-  ModalService
+  SettingsService
 ) {
   $scope.onChangeCheckInInterval = onChangeCheckInInterval;
   $scope.setFieldValue = setFieldValue;
@@ -114,7 +114,7 @@ function EndpointController(
   };
 
   $scope.onDisassociateEndpoint = async function () {
-    ModalService.confirmDisassociate((confirmed) => {
+    confirmDisassociate().then((confirmed) => {
       if (confirmed) {
         disassociateEndpoint();
       }

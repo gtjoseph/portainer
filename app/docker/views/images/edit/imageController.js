@@ -1,5 +1,6 @@
 import _ from 'lodash-es';
 import { PorImageRegistryModel } from 'Docker/models/porImageRegistry';
+import { confirmImageExport } from '@/react/docker/images/common/ConfirmExportModal';
 
 angular.module('portainer.docker').controller('ImageController', [
   '$async',
@@ -172,7 +173,7 @@ angular.module('portainer.docker').controller('ImageController', [
         return;
       }
 
-      ModalService.confirmImageExport(function (confirmed) {
+      confirmImageExport(function (confirmed) {
         if (!confirmed) {
           return;
         }

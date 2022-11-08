@@ -1,3 +1,4 @@
+import sanitize from 'sanitize-html';
 import { ResourceControlType } from '@/react/portainer/access-control/types';
 import { AccessControlFormData } from 'Portainer/components/accessControlForm/porAccessControlFormModel';
 import { FeatureId } from '@/react/portainer/feature-flags/enums';
@@ -5,6 +6,7 @@ import { getEnvironments } from '@/react/portainer/environments/environment.serv
 import { StackStatus, StackType } from '@/react/docker/stacks/types';
 import { extractContainerNames } from '@/portainer/helpers/stackHelper';
 import { confirmStackUpdate } from '@/react/docker/stacks/common/confirm-stack-update';
+import { confirmAsync } from '@/portainer/services/modal.service/confirm';
 
 angular.module('portainer.app').controller('StackController', [
   '$async',
@@ -161,12 +163,15 @@ angular.module('portainer.app').controller('StackController', [
     };
 
     $scope.detachStackFromGit = function () {
-      ModalService.confirmDetachment('Do you want to detach the stack from Git?', function onConfirm(confirmed) {
-        if (!confirmed) {
-          return;
-        }
-        $scope.deployStack();
-      });
+      confirmDetachment(
+        'Do you want to detach the stack from Git?'.then(function onConfirm(confirmed) {
+          if (!confirmed) {
+            return;
+          }
+
+          $scope.deployStack();
+        })
+      );
     };
 
     function migrateStack(name, targetEndpointId) {
@@ -495,3 +500,17 @@ angular.module('portainer.app').controller('StackController', [
     initView();
   },
 ]);
+
+function confirmDetachment(message) {
+  const messageSanitized = sanitize(message);
+  return confirmAsync({
+    title: 'Are you sure?',
+    message: messageSanitized,
+    buttons: {
+      confirm: {
+        label: 'Detach',
+        className: 'btn-danger',
+      },
+    },
+  });
+}

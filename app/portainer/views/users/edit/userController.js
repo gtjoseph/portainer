@@ -1,3 +1,5 @@
+import { confirmChangePassword } from '@/portainer/services/modal.service/confirm';
+
 angular.module('portainer.app').controller('UserController', [
   '$q',
   '$scope',
@@ -71,7 +73,7 @@ angular.module('portainer.app').controller('UserController', [
 
     $scope.updatePassword = async function () {
       const isCurrentUser = Authentication.getUserDetails().ID === $scope.user.Id;
-      const confirmed = !isCurrentUser || (await ModalService.confirmChangePassword());
+      const confirmed = !isCurrentUser || (await confirmChangePassword());
       if (!confirmed) {
         return;
       }

@@ -1,3 +1,4 @@
+import { confirmChangePassword } from '@/portainer/services/modal.service/confirm';
 import { openDialog } from '@/portainer/services/modal.service/Dialog';
 
 angular.module('portainer.app').controller('AccountController', [
@@ -19,7 +20,7 @@ angular.module('portainer.app').controller('AccountController', [
     };
 
     $scope.updatePassword = async function () {
-      const confirmed = await ModalService.confirmChangePassword();
+      const confirmed = await confirmChangePassword();
       if (confirmed) {
         try {
           await UserService.updateUserPassword($scope.userID, $scope.formValues.currentPassword, $scope.formValues.newPassword);
