@@ -1,5 +1,7 @@
 import { confirmAsync } from '@/portainer/services/modal.service/confirm';
 
+import { ModalType } from '@@/modals';
+
 export function confirmDisassociate() {
   const message = (
     <>
@@ -20,6 +22,7 @@ export function confirmDisassociate() {
 
   return confirmAsync({
     title: 'About disassociating',
+    modalType: ModalType.Warn,
     message,
     buttons: {
       confirm: {

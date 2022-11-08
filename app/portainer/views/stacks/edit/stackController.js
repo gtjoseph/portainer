@@ -7,6 +7,7 @@ import { StackStatus, StackType } from '@/react/docker/stacks/types';
 import { extractContainerNames } from '@/portainer/helpers/stackHelper';
 import { confirmStackUpdate } from '@/react/docker/stacks/common/confirm-stack-update';
 import { confirmAsync } from '@/portainer/services/modal.service/confirm';
+import { ModalType } from '@@/modals';
 
 angular.module('portainer.app').controller('StackController', [
   '$async',
@@ -504,6 +505,7 @@ angular.module('portainer.app').controller('StackController', [
 function confirmDetachment(message) {
   const messageSanitized = sanitize(message);
   return confirmAsync({
+    modalType: ModalType.Warn,
     title: 'Are you sure?',
     message: messageSanitized,
     buttons: {

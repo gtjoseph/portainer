@@ -34,22 +34,17 @@ export function confirmDestructiveAsync(
 }
 
 export function confirmWebEditorDiscard() {
-  const options = {
+  return confirmAsync({
+    modalType: ModalType.Warn,
     title: 'Are you sure?',
     message:
       'You currently have unsaved changes in the editor. Are you sure you want to leave?',
     buttons: {
       confirm: {
         label: 'Yes',
-        className: 'btn-danger',
+        color: 'danger',
       },
     },
-  };
-  return new Promise((resolve) => {
-    confirm({
-      ...options,
-      callback: (confirmed) => resolve(confirmed),
-    });
   });
 }
 
@@ -80,6 +75,7 @@ export function confirmUpdate(message: string, callback: ConfirmCallback) {
 
   confirm({
     title: 'Are you sure?',
+    modalType: ModalType.Warn,
     message: messageSanitized,
     buttons: {
       confirm: {
@@ -93,6 +89,7 @@ export function confirmUpdate(message: string, callback: ConfirmCallback) {
 
 export function confirmChangePassword() {
   return confirmAsync({
+    modalType: ModalType.Warn,
     title: 'Are you sure?',
     message:
       'You will be logged out after the password change. Do you want to change your password?',
