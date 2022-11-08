@@ -33,7 +33,7 @@ import KubernetesVolumeHelper from 'Kubernetes/helpers/volumeHelper';
 import KubernetesNamespaceHelper from 'Kubernetes/helpers/namespaceHelper';
 import { KubernetesNodeHelper } from 'Kubernetes/node/helper';
 import { updateIngress, getIngresses } from '@/react/kubernetes/ingresses/service';
-import { confirmUpdateAppIngress } from '@/portainer/services/modal.service/prompt';
+import { confirmUpdateAppIngress } from '@/react/kubernetes/applications/CreateView/UpdateIngressPrompt';
 
 class KubernetesCreateApplicationController {
   /* #region  CONSTRUCTOR */
@@ -1024,11 +1024,11 @@ class KubernetesCreateApplicationController {
     }
   }
 
-  async updateApplicationAsync(ingressesToUpdate, rulePlural) {
+  async updateApplicationAsync(ingressesToUpdate) {
     if (ingressesToUpdate.length) {
       try {
         await Promise.all(ingressesToUpdate.map((ing) => updateIngress(this.endpoint.Id, ing)));
-        this.Notifications.success('Success', `Ingress ${rulePlural} successfully updated`);
+        this.Notifications.success('Success', `Ingress ${ingressesToUpdate.length > 1 ? 'rules' : 'rule'} successfully updated`);
       } catch (error) {
         this.Notifications.error('Failure', error, 'Unable to update ingress');
       }
@@ -1050,33 +1050,22 @@ class KubernetesCreateApplicationController {
     const [ingressesToUpdate, servicePortsToUpdate] = await this.checkIngressesToUpdate();
     // if there is an ingressesToUpdate, then show a warning modal with asking if they want to update the ingresses
     if (ingressesToUpdate.length) {
-      const rulePlural = ingressesToUpdate.length > 1 ? 'rules' : 'rule';
-      const noMatchSentence =
-        servicePortsToUpdate.length > 1
-          ? `Service ports in this application no longer match the ingress ${rulePlural}.`
-          : `A service port in this application no longer matches the ingress ${rulePlural} which may break ingress rule paths.`;
-      const message = `
-        <ul class="ml-3">
-          <li>Updating the application may cause a service interruption.</li>
-          <li>${noMatchSentence}</li>
-        </ul>
-      `;
-      const inputLabel = `Update ingress ${rulePlural} to match the service port changes`;
-      confirmUpdateAppIngress(`Are you sure?`, message, inputLabel, (value) => {
-        if (value === null) {
-          return;
-        }
-        if (value.length === 0) {
-          return this.$async(this.updateApplicationAsync, [], '');
-        }
-        if (value[0] === '1') {
-          return this.$async(this.updateApplicationAsync, ingressesToUpdate, rulePlural);
-        }
-      });
+      const result = await confirmUpdateAppIngress(ingressesToUpdate, servicePortsToUpdate);
+      if (!result) {
+        return;
+      }
+
+      const { noMatch } = result;
+      if (!noMatch) {
+        return this.$async(this.updateApplicationAsync, []);
+      }
+      if (noMatch) {
+        return this.$async(this.updateApplicationAsync, ingressesToUpdate);
+      }
     } else {
       this.ModalService.confirmUpdate('Updating the application may cause a service interruption. Do you wish to continue?', (confirmed) => {
         if (confirmed) {
-          return this.$async(this.updateApplicationAsync, [], '');
+          return this.$async(this.updateApplicationAsync, []);
         }
       });
     }

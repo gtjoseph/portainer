@@ -4,6 +4,7 @@ import { FeatureId } from '@/react/portainer/feature-flags/enums';
 import { getEnvironments } from '@/react/portainer/environments/environment.service';
 import { StackStatus, StackType } from '@/react/docker/stacks/types';
 import { extractContainerNames } from '@/portainer/helpers/stackHelper';
+import { confirmStackUpdate } from '@/react/docker/stacks/common/confirm-stack-update';
 
 angular.module('portainer.app').controller('StackController', [
   '$async',
@@ -240,7 +241,7 @@ angular.module('portainer.app').controller('StackController', [
     $scope.deployStack = function () {
       const stack = $scope.stack;
       const isSwarmStack = stack.Type === 1;
-      ModalService.confirmStackUpdate('Do you want to force an update of the stack?', isSwarmStack, null, function (result) {
+      confirmStackUpdate('Do you want to force an update of the stack?', isSwarmStack).then(function (result) {
         if (!result) {
           return;
         }
@@ -257,7 +258,7 @@ angular.module('portainer.app').controller('StackController', [
         }
 
         $scope.state.actionInProgress = true;
-        StackService.updateStack(stack, stackFile, env, prune, !!result[0])
+        StackService.updateStack(stack, stackFile, env, prune, result.pullImage)
           .then(function success() {
             Notifications.success('Success', 'Stack successfully deployed');
             $scope.state.isEditorDirty = false;

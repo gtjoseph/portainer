@@ -13,13 +13,6 @@ import {
   confirmWebEditorDiscard,
   confirm,
 } from './confirm';
-import {
-  confirmContainerDeletion,
-  confirmContainerRecreation,
-  confirmServiceForceUpdate,
-  confirmStackUpdate,
-  selectRegistry,
-} from './prompt';
 
 /* @ngInject */
 export function ModalServiceAngular() {
@@ -35,12 +28,7 @@ export function ModalServiceAngular() {
     confirmUpdate,
     confirmRedeploy,
     confirmDeletionAsync,
-    confirmContainerRecreation,
     confirmChangePassword,
     confirmImageExport,
-    confirmServiceForceUpdate,
-    confirmStackUpdate,
-    selectRegistry,
-    confirmContainerDeletion,
   };
 }

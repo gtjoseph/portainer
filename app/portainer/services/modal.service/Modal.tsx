@@ -2,6 +2,8 @@ import { DialogContent, DialogOverlay } from '@reach/dialog';
 import { ComponentType, PropsWithChildren } from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 
+import { ModalTypeIcon } from './utils';
+
 export type OnSubmit<TResult> = (result?: TResult) => void;
 
 interface Props<TResult> {
@@ -39,10 +41,12 @@ export function Modal<TResult>({
 interface ModalTitleProps<TResult> {
   onSubmit: OnSubmit<TResult>;
   title: string;
+  modalType?: ModalTypeIcon;
 }
 
 export function ModalTitle<TResult>({
   title,
+  modalType,
   onSubmit,
 }: ModalTitleProps<TResult>) {
   return (
@@ -50,6 +54,7 @@ export function ModalTitle<TResult>({
       <button type="button" className="close" onClick={() => onSubmit()}>
         ×
       </button>
+      {modalType && <div className={`background-${modalType}`} />}
       <h5 className="modal-title">{title}</h5>
     </div>
   );
@@ -61,7 +66,7 @@ type ModalBodyProps<TResult> =
       isCloseButtonVisible: true;
     }
   | {
-      isCloseButtonVisible: never;
+      isCloseButtonVisible?: undefined;
     };
 
 export function ModalBody<TResult>({
@@ -85,7 +90,7 @@ export function ModalBody<TResult>({
 }
 
 export function ModalFooter({ children }: PropsWithChildren<unknown>) {
-  return <div className="modal-footer">{children}</div>;
+  return <div className="modal-footer flex justify-end">{children}</div>;
 }
 
 let counter = 0;

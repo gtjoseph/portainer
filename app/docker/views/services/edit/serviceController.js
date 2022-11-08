@@ -22,6 +22,7 @@ import _ from 'lodash-es';
 import { PorImageRegistryModel } from 'Docker/models/porImageRegistry';
 import * as envVarsUtils from '@/portainer/helpers/env-vars';
 import { ResourceControlType } from '@/react/portainer/access-control/types';
+import { confirmServiceForceUpdate } from '@/react/docker/services/common/update-service-modal';
 
 angular.module('portainer.docker').controller('ServiceController', [
   '$q',
@@ -621,15 +622,12 @@ angular.module('portainer.docker').controller('ServiceController', [
     }
 
     $scope.forceUpdateService = function (service) {
-      ModalService.confirmServiceForceUpdate('Do you want to force an update of the service? All the tasks associated to the service will be recreated.', function (result) {
+      confirmServiceForceUpdate('Do you want to force an update of the service? All the tasks associated to the service will be recreated.').then(function (result) {
         if (!result) {
           return;
         }
-        var pullImage = false;
-        if (result[0]) {
-          pullImage = true;
-        }
-        forceUpdateService(service, pullImage);
+
+        forceUpdateService(service, result.pullLatest);
       });
     };
 

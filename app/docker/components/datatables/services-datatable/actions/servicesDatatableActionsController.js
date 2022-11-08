@@ -1,3 +1,5 @@
+import { confirmServiceForceUpdate } from '@/react/docker/services/common/update-service-modal';
+
 angular.module('portainer.docker').controller('ServicesDatatableActionsController', [
   '$q',
   '$state',
@@ -38,19 +40,15 @@ angular.module('portainer.docker').controller('ServicesDatatableActionsControlle
     };
 
     this.updateAction = function (selectedItems) {
-      ModalService.confirmServiceForceUpdate(
-        'Do you want to force an update of the selected service(s)? All the tasks associated to the selected service(s) will be recreated.',
-        function (result) {
-          if (!result) {
-            return;
-          }
-          var pullImage = false;
-          if (result[0]) {
-            pullImage = true;
-          }
-          forceUpdateServices(selectedItems, pullImage);
+      confirmServiceForceUpdate('Do you want to force an update of the selected service(s)? All the tasks associated to the selected service(s) will be recreated.').then(function (
+        result
+      ) {
+        if (!result) {
+          return;
         }
-      );
+
+        forceUpdateServices(selectedItems, result.pullLatest);
+      });
     };
 
     function forceUpdateServices(services, pullImage) {

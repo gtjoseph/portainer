@@ -2,15 +2,15 @@ import sanitize from 'sanitize-html';
 
 import { Props as ButtonComponentProps } from '@@/buttons/Button';
 
-interface Button {
+export interface ButtonOptions {
   label: string;
   className?: string;
   color?: ButtonComponentProps['color'];
 }
 
 export interface ButtonsOptions {
-  confirm: Button;
-  cancel?: Button;
+  confirm: ButtonOptions;
+  cancel?: ButtonOptions;
 }
 
 export enum ModalTypeIcon {

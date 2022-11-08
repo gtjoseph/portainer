@@ -90,6 +90,7 @@ angular.module('portainer.docker').controller('ImageController', [
       return $async(async () => {
         try {
           const registryModel = await RegistryModalService.registryModal(repository, $scope.registries);
+
           if (registryModel) {
             $('#uploadResourceHint').show();
             await ImageService.pushImage(registryModel);
