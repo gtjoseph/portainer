@@ -1,9 +1,6 @@
 import { useState } from 'react';
 
-import { Modal } from '@/portainer/services/modal.service/Modal';
-import { openModal } from '@/portainer/services/modal.service';
-import { OnSubmit } from '@/portainer/services/modal.service/Modal/types';
-
+import { OnSubmit, Modal, openModal } from '@@/modals';
 import { Button } from '@@/buttons';
 
 import { DeployType } from './types';

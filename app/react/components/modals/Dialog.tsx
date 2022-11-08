@@ -4,8 +4,8 @@ import { ComponentProps, ReactNode } from 'react';
 import { Button } from '@@/buttons';
 
 import { ButtonsOptions, ModalType } from './types';
-import { Modal } from './Modal';
 import { openModal } from './open-modal';
+import { Modal } from './Modal';
 
 export interface Options {
   title?: string;

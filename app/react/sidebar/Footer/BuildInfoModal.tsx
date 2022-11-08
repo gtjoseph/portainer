@@ -5,8 +5,8 @@ import {
   useStatus,
   useVersionStatus,
 } from '@/portainer/services/api/status.service';
-import { Modal } from '@/portainer/services/modal.service/Modal';
 
+import { Modal } from '@@/modals';
 import { Button } from '@@/buttons';
 
 import styles from './Footer.module.css';

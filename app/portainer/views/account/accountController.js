@@ -1,5 +1,5 @@
 import { confirmChangePassword } from '@/portainer/services/modal.service/confirm';
-import { openDialog } from '@/portainer/services/modal.service/Dialog';
+import { openDialog } from '@@/modals/Dialog';
 
 angular.module('portainer.app').controller('AccountController', [
   '$scope',

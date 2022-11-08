@@ -3,10 +3,10 @@ import { ReactNode, useState } from 'react';
 import { SwitchField } from '@@/form-components/SwitchField';
 import { Button } from '@@/buttons';
 
-import { Modal } from './Modal';
-import { openModal } from './open-modal';
-import { OnSubmit } from './Modal/types';
 import { ModalType, type ButtonOptions } from './types';
+import { openModal } from './open-modal';
+import { Modal } from './Modal';
+import { OnSubmit } from './Modal/types';
 
 function SwitchPrompt({
   onSubmit,

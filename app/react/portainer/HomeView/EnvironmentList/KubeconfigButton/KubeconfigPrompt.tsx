@@ -10,8 +10,8 @@ import {
   Query,
   useEnvironmentList,
 } from '@/react/portainer/environments/queries/useEnvironmentList';
-import { Modal } from '@/portainer/services/modal.service/Modal';
 
+import { Modal } from '@@/modals';
 import { PaginationControls } from '@@/PaginationControls';
 import { Checkbox } from '@@/form-components/Checkbox';
 import { Button } from '@@/buttons';

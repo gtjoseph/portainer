@@ -1,23 +1,16 @@
 import sanitize from 'sanitize-html';
 
-import { confirmButtons } from './utils';
+import { ModalType } from '@@/modals';
 import {
   ConfirmAsyncOptions,
   ConfirmCallback,
+  ConfirmOptions,
   openConfirm,
-} from './ConfirmModal';
-import { ModalType } from './types';
+} from '@@/modals/confirm';
 
-interface ConfirmOptions extends ConfirmAsyncOptions {
-  callback: ConfirmCallback;
-}
+import { confirmButtons } from './utils';
 
-export function confirmAsync(options: ConfirmAsyncOptions) {
-  return openConfirm({
-    ...options,
-    modalType: options.modalType || ModalType.Warn,
-  });
-}
+export const confirmAsync = openConfirm;
 
 export function confirm(options: ConfirmOptions) {
   return (async function innerConfirm() {

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-import { Modal } from '@/portainer/services/modal.service/Modal';
-import { openModal } from '@/portainer/services/modal.service';
-
+import { Modal, openModal } from '@@/modals';
 import { Button } from '@@/buttons';
 import { SwitchField } from '@@/form-components/SwitchField';
 

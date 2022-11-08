@@ -1,10 +1,8 @@
 import { useState } from 'react';
 
-import { Modal } from '@/portainer/services/modal.service/Modal';
-import { openModal } from '@/portainer/services/modal.service';
-import { OnSubmit } from '@/portainer/services/modal.service/Modal/types';
 import { Registry } from '@/react/portainer/environments/environment.service/registries';
 
+import { Modal, OnSubmit, openModal } from '@@/modals';
 import { Button } from '@@/buttons';
 import { PortainerSelect } from '@@/form-components/PortainerSelect';
 

@@ -1,10 +1,6 @@
 import { useState } from 'react';
 
-import { Modal } from '@/portainer/services/modal.service/Modal';
-import { openModal } from '@/portainer/services/modal.service';
-import { OnSubmit } from '@/portainer/services/modal.service/Modal/types';
-import { ModalType } from '@/portainer/services/modal.service/types';
-
+import { Modal, OnSubmit, ModalType, openModal } from '@@/modals';
 import { Button } from '@@/buttons';
 import { SwitchField } from '@@/form-components/SwitchField';
 import { TextTip } from '@@/Tip/TextTip';

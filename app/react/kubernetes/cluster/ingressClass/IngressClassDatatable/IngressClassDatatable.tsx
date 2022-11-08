@@ -3,8 +3,8 @@ import { AlertTriangle, Database } from 'lucide-react';
 import { useStore } from 'zustand';
 
 import { confirm } from '@/portainer/services/modal.service/confirm';
-import { ModalType } from '@/portainer/services/modal.service/types';
 
+import { ModalType } from '@@/modals';
 import { Datatable } from '@@/datatables';
 import { Button, ButtonGroup } from '@@/buttons';
 import { Icon } from '@@/Icon';

@@ -1,6 +1,6 @@
 import sanitize from 'sanitize-html';
 
-import { ButtonsOptions } from './types';
+import { ButtonsOptions } from '@@/modals/types';
 
 export function confirmButtons(options: ButtonsOptions) {
   return {

@@ -1,5 +1,5 @@
-import { openSwitchPrompt } from '@/portainer/services/modal.service/prompt';
-import { ModalType } from '@/portainer/services/modal.service/types';
+import { ModalType } from '@@/modals';
+import { openSwitchPrompt } from '@@/modals/SwitchPrompt';
 
 export async function confirmContainerDeletion(title: string) {
   const result = await openSwitchPrompt(

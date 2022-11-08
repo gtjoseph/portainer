@@ -1,5 +1,5 @@
-import { openSwitchPrompt } from '@/portainer/services/modal.service/prompt';
-import { ModalType } from '@/portainer/services/modal.service/types';
+import { openSwitchPrompt } from '@@/modals/SwitchPrompt';
+import { ModalType } from '@@/modals';
 
 export async function confirmServiceForceUpdate(message: string) {
   const result = await openSwitchPrompt(

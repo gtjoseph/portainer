@@ -1,6 +1,6 @@
 import _ from 'lodash-es';
 import { PorImageRegistryModel } from 'Docker/models/porImageRegistry';
-import { ModalType } from '@/portainer/services/modal.service/types';
+import { ModalType } from '@@/modals';
 import { confirmImageExport } from '@/react/docker/images/common/ConfirmExportModal';
 
 angular.module('portainer.docker').controller('ImagesController', [
