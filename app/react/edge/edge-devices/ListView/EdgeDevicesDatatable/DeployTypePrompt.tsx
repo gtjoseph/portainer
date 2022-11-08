@@ -1,13 +1,8 @@
 import { useState } from 'react';
 
-import {
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalTitle,
-  OnSubmit,
-  openModal,
-} from '@/portainer/services/modal.service/Modal';
+import { Modal } from '@/portainer/services/modal.service/Modal';
+import { openModal } from '@/portainer/services/modal.service';
+import { OnSubmit } from '@/portainer/services/modal.service/Modal/types';
 
 import { Button } from '@@/buttons';
 
@@ -26,12 +21,12 @@ function DeployTypePrompt({
 
   return (
     <Modal onSubmit={() => onSubmit()} aria-label="deploy type prompt">
-      <ModalTitle
+      <Modal.Header
         onSubmit={() => onSubmit()}
         title="How would you like to add an Edge Device?"
       />
 
-      <ModalBody>
+      <Modal.Body>
         <label className="inline-flex items-center pt-3">
           <input
             type="radio"
@@ -59,12 +54,12 @@ function DeployTypePrompt({
             Deploy agent manually
           </span>
         </label>
-      </ModalBody>
-      <ModalFooter>
+      </Modal.Body>
+      <Modal.Footer>
         <Button onClick={() => onSubmit({ deployType })} color="primary">
           Update
         </Button>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 }

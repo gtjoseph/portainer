@@ -4,7 +4,8 @@ import { ComponentProps, ReactNode } from 'react';
 import { Button } from '@@/buttons';
 
 import { ButtonsOptions, ModalType } from './types';
-import { Modal, ModalBody, ModalFooter, ModalTitle, openModal } from './Modal';
+import { Modal } from './Modal';
+import { openModal } from './open-modal';
 
 export interface Options {
   title?: string;
@@ -20,14 +21,14 @@ interface Props extends Options {
 export function Dialog({ buttons, message, title, onSubmit }: Props) {
   return (
     <Modal onSubmit={onSubmit} aria-label={title || String(message)}>
-      {title && <ModalTitle title={title} onSubmit={onSubmit} />}
-      <ModalBody<boolean>
+      {title && <Modal.Header title={title} onSubmit={onSubmit} />}
+      <Modal.Body<boolean>
         onSubmit={onSubmit}
         isCloseButtonVisible={!title ? true : (!title as never)}
       >
         {message}
-      </ModalBody>
-      <ModalFooter>
+      </Modal.Body>
+      <Modal.Footer>
         {buttons.cancel && (
           <DialogButton
             accept={false}
@@ -45,7 +46,7 @@ export function Dialog({ buttons, message, title, onSubmit }: Props) {
           className={buttons.confirm.className}
           color={buttons.confirm.color}
         />
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 }

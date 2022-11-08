@@ -8,6 +8,8 @@ import {
   confirm,
 } from './confirm';
 
+export { openModal } from './open-modal';
+
 /* @ngInject */
 export function ModalServiceAngular() {
   return {

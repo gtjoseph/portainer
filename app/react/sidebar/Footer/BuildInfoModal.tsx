@@ -5,12 +5,7 @@ import {
   useStatus,
   useVersionStatus,
 } from '@/portainer/services/api/status.service';
-import {
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalTitle,
-} from '@/portainer/services/modal.service/Modal';
+import { Modal } from '@/portainer/services/modal.service/Modal';
 
 import { Button } from '@@/buttons';
 
@@ -56,8 +51,8 @@ function BuildInfoModal({ closeModal }: { closeModal: () => void }) {
 
   return (
     <Modal onSubmit={closeModal}>
-      <ModalTitle onSubmit={closeModal} title={`Portainer ${Edition}`} />
-      <ModalBody>
+      <Modal.Header onSubmit={closeModal} title={`Portainer ${Edition}`} />
+      <Modal.Body>
         <div className={styles.versionInfo}>
           <table>
             <tbody>
@@ -109,12 +104,12 @@ function BuildInfoModal({ closeModal }: { closeModal: () => void }) {
             <span className="text-muted small">Go v{Build.GoVersion}</span>
           </div>
         </div>
-      </ModalBody>
-      <ModalFooter>
+      </Modal.Body>
+      <Modal.Footer>
         <Button className="w-full" onClick={closeModal}>
           Ok
         </Button>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 }

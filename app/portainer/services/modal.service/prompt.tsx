@@ -3,15 +3,10 @@ import { ReactNode, useState } from 'react';
 import { SwitchField } from '@@/form-components/SwitchField';
 import { Button } from '@@/buttons';
 
+import { Modal } from './Modal';
+import { openModal } from './open-modal';
+import { OnSubmit } from './Modal/types';
 import { ModalType, type ButtonOptions } from './types';
-import {
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalTitle,
-  OnSubmit,
-  openModal,
-} from './Modal';
 
 function SwitchPrompt({
   onSubmit,
@@ -34,13 +29,13 @@ function SwitchPrompt({
 
   return (
     <Modal onSubmit={() => onSubmit()} aria-label={title}>
-      <ModalTitle
+      <Modal.Header
         onSubmit={() => onSubmit()}
         title={title}
         modalType={modalType}
       />
 
-      <ModalBody>
+      <Modal.Body>
         {message && <div className="mb-3">{message}</div>}
         <SwitchField
           name="value"
@@ -48,8 +43,8 @@ function SwitchPrompt({
           checked={value}
           onChange={setValue}
         />
-      </ModalBody>
-      <ModalFooter>
+      </Modal.Body>
+      <Modal.Footer>
         <Button onClick={() => onSubmit()} color="default">
           Cancel
         </Button>
@@ -60,7 +55,7 @@ function SwitchPrompt({
         >
           {button.label}
         </Button>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 }

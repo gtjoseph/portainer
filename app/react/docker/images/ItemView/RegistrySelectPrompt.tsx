@@ -1,12 +1,8 @@
 import { useState } from 'react';
 
-import {
-  Modal,
-  ModalTitle,
-  ModalBody,
-  ModalFooter,
-  openModal,
-} from '@/portainer/services/modal.service/Modal';
+import { Modal } from '@/portainer/services/modal.service/Modal';
+import { openModal } from '@/portainer/services/modal.service';
+import { OnSubmit } from '@/portainer/services/modal.service/Modal/types';
 import { Registry } from '@/react/portainer/environments/environment.service/registries';
 
 import { Button } from '@@/buttons';
@@ -14,7 +10,7 @@ import { PortainerSelect } from '@@/form-components/PortainerSelect';
 
 interface Props {
   registries: Registry[];
-  onSubmit: (registryId?: Registry['Id']) => void;
+  onSubmit: OnSubmit<Registry['Id']>;
   defaultValue: Registry['Id'];
 }
 
@@ -25,23 +21,23 @@ function RegistrySelectPrompt({ onSubmit, defaultValue, registries }: Props) {
 
   return (
     <Modal onSubmit={() => onSubmit()} aria-label={title}>
-      <ModalTitle onSubmit={() => onSubmit()} title={title} />
+      <Modal.Header onSubmit={() => onSubmit()} title={title} />
 
-      <ModalBody>
+      <Modal.Body>
         <PortainerSelect
           onChange={setRegistryId}
           value={registryId}
           options={options}
         />
-      </ModalBody>
-      <ModalFooter>
+      </Modal.Body>
+      <Modal.Footer>
         <Button onClick={() => onSubmit()} color="default">
           Cancel
         </Button>
         <Button onClick={() => onSubmit(registryId)} color="primary">
           Update
         </Button>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 }

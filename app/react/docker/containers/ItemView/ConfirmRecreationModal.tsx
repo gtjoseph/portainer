@@ -1,13 +1,8 @@
 import { useState } from 'react';
 
-import {
-  Modal,
-  ModalTitle,
-  ModalBody,
-  ModalFooter,
-  openModal,
-  OnSubmit,
-} from '@/portainer/services/modal.service/Modal';
+import { Modal } from '@/portainer/services/modal.service/Modal';
+import { openModal } from '@/portainer/services/modal.service';
+import { OnSubmit } from '@/portainer/services/modal.service/Modal/types';
 import { ModalType } from '@/portainer/services/modal.service/types';
 
 import { Button } from '@@/buttons';
@@ -28,13 +23,13 @@ function ConfirmRecreationModal({ onSubmit, cannotPullImage }: Props) {
       onSubmit={() => onSubmit()}
       aria-label="confirm recreate container modal"
     >
-      <ModalTitle
+      <Modal.Header
         onSubmit={() => onSubmit()}
         title="Are you sure?"
         modalType={ModalType.Destructive}
       />
 
-      <ModalBody>
+      <Modal.Body>
         <SwitchField
           name="pullLatest"
           label="Pull latest image"
@@ -50,15 +45,15 @@ function ConfirmRecreationModal({ onSubmit, cannotPullImage }: Props) {
             </TextTip>
           </div>
         )}
-      </ModalBody>
-      <ModalFooter>
+      </Modal.Body>
+      <Modal.Footer>
         <Button onClick={() => onSubmit()} color="default">
           Cancel
         </Button>
         <Button onClick={() => onSubmit({ pullLatest })} color="danger">
           Recreate
         </Button>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 }

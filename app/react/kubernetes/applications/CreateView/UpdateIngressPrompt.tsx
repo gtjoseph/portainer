@@ -1,12 +1,7 @@
 import { useState } from 'react';
 
-import {
-  Modal,
-  ModalTitle,
-  ModalBody,
-  ModalFooter,
-  openModal,
-} from '@/portainer/services/modal.service/Modal';
+import { Modal } from '@/portainer/services/modal.service/Modal';
+import { openModal } from '@/portainer/services/modal.service';
 
 import { Button } from '@@/buttons';
 import { SwitchField } from '@@/form-components/SwitchField';
@@ -32,9 +27,9 @@ function UpdateIngressPrompt({
 
   return (
     <Modal onSubmit={() => onSubmit()} aria-label={title}>
-      <ModalTitle onSubmit={() => onSubmit()} title={title} />
+      <Modal.Header onSubmit={() => onSubmit()} title={title} />
 
-      <ModalBody>
+      <Modal.Body>
         <ul className="ml-3">
           <li>Updating the application may cause a service interruption.</li>
           <li>{noMatchSentence}</li>
@@ -46,12 +41,12 @@ function UpdateIngressPrompt({
           checked={value}
           onChange={setValue}
         />
-      </ModalBody>
-      <ModalFooter>
+      </Modal.Body>
+      <Modal.Footer>
         <Button onClick={() => onSubmit({ noMatch: value })} color="primary">
           Update
         </Button>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 }

@@ -10,12 +10,7 @@ import {
   Query,
   useEnvironmentList,
 } from '@/react/portainer/environments/queries/useEnvironmentList';
-import {
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalTitle,
-} from '@/portainer/services/modal.service/Modal';
+import { Modal } from '@/portainer/services/modal.service/Modal';
 
 import { PaginationControls } from '@@/PaginationControls';
 import { Checkbox } from '@@/form-components/Checkbox';
@@ -56,9 +51,9 @@ export function KubeconfigPrompt({
 
   return (
     <Modal aria-label="Kubeconfig View" onSubmit={onClose}>
-      <ModalTitle onSubmit={onClose} title="Download kubeconfig file" />
+      <Modal.Header onSubmit={onClose} title="Download kubeconfig file" />
 
-      <ModalBody>
+      <Modal.Body>
         <div>
           <span>
             Select the kubernetes environments to add to the kubeconfig file.
@@ -107,16 +102,16 @@ export function KubeconfigPrompt({
             />
           </div>
         </div>
-      </ModalBody>
+      </Modal.Body>
 
-      <ModalFooter>
+      <Modal.Footer>
         <Button onClick={onClose} color="default">
           Cancel
         </Button>
         <Button onClick={handleDownload} disabled={selectionSize < 1}>
           Download File
         </Button>
-      </ModalFooter>
+      </Modal.Footer>
     </Modal>
   );
 
