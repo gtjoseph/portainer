@@ -8,7 +8,7 @@ import {
   openModal,
   OnSubmit,
 } from '@/portainer/services/modal.service/Modal';
-import { ModalTypeIcon } from '@/portainer/services/modal.service/utils';
+import { ModalType } from '@/portainer/services/modal.service/types';
 
 import { Button } from '@@/buttons';
 import { SwitchField } from '@@/form-components/SwitchField';
@@ -31,7 +31,7 @@ function ConfirmRecreationModal({ onSubmit, cannotPullImage }: Props) {
       <ModalTitle
         onSubmit={() => onSubmit()}
         title="Are you sure?"
-        modalType={ModalTypeIcon.Destructive}
+        modalType={ModalType.Destructive}
       />
 
       <ModalBody>

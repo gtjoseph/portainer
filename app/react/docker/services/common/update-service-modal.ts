@@ -1,5 +1,5 @@
 import { openSwitchPrompt } from '@/portainer/services/modal.service/prompt';
-import { ModalTypeIcon } from '@/portainer/services/modal.service/utils';
+import { ModalType } from '@/portainer/services/modal.service/types';
 
 export async function confirmServiceForceUpdate(message: string) {
   const result = await openSwitchPrompt(
@@ -8,7 +8,7 @@ export async function confirmServiceForceUpdate(message: string) {
     {
       message,
       button: { color: 'primary', label: 'Update' },
-      modalType: ModalTypeIcon.Warn,
+      modalType: ModalType.Warn,
     }
   );
 

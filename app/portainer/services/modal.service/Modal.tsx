@@ -4,7 +4,7 @@ import { render, unmountComponentAtNode } from 'react-dom';
 import clsx from 'clsx';
 import '@reach/dialog/styles.css';
 
-import { ModalTypeIcon } from './utils';
+import { ModalType } from './types';
 import styles from './Modal.module.css';
 
 export type OnSubmit<TResult> = (result?: TResult) => void;
@@ -44,7 +44,7 @@ export function Modal<TResult>({
 interface ModalTitleProps<TResult> {
   onSubmit: OnSubmit<TResult>;
   title: string;
-  modalType?: ModalTypeIcon;
+  modalType?: ModalType;
 }
 
 export function ModalTitle<TResult>({
@@ -60,8 +60,8 @@ export function ModalTitle<TResult>({
       {modalType && (
         <div
           className={clsx({
-            [styles.backgroundError]: modalType === ModalTypeIcon.Destructive,
-            [styles.backgroundWarning]: modalType === ModalTypeIcon.Warn,
+            [styles.backgroundError]: modalType === ModalType.Destructive,
+            [styles.backgroundWarning]: modalType === ModalType.Warn,
           })}
         />
       )}

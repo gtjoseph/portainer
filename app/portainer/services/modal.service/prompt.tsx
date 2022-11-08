@@ -3,7 +3,7 @@ import { ReactNode, useState } from 'react';
 import { SwitchField } from '@@/form-components/SwitchField';
 import { Button } from '@@/buttons';
 
-import { ModalTypeIcon, ButtonOptions } from './utils';
+import { ModalType, type ButtonOptions } from './types';
 import {
   Modal,
   ModalBody,
@@ -26,7 +26,7 @@ function SwitchPrompt({
   title: string;
   switchLabel: string;
   button?: ButtonOptions;
-  modalType?: ModalTypeIcon;
+  modalType?: ModalType;
   message?: ReactNode;
   defaultValue?: boolean;
 }) {
@@ -75,7 +75,7 @@ export async function openSwitchPrompt(
     defaultValue,
   }: {
     button?: ButtonOptions;
-    modalType?: ModalTypeIcon;
+    modalType?: ModalType;
     message?: ReactNode;
     defaultValue?: boolean;
   } = {}

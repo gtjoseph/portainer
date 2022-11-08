@@ -1,22 +1,6 @@
 import sanitize from 'sanitize-html';
 
-import { Props as ButtonComponentProps } from '@@/buttons/Button';
-
-export interface ButtonOptions {
-  label: string;
-  className?: string;
-  color?: ButtonComponentProps['color'];
-}
-
-export interface ButtonsOptions {
-  confirm: ButtonOptions;
-  cancel?: ButtonOptions;
-}
-
-export enum ModalTypeIcon {
-  Warn = 'warning',
-  Destructive = 'error',
-}
+import { ButtonsOptions } from './types';
 
 export function confirmButtons(options: ButtonsOptions) {
   return {

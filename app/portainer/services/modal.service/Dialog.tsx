@@ -3,13 +3,13 @@ import { ComponentProps, ReactNode } from 'react';
 
 import { Button } from '@@/buttons';
 
-import { ButtonsOptions, ModalTypeIcon } from './utils';
+import { ButtonsOptions, ModalType } from './types';
 import { Modal, ModalBody, ModalFooter, ModalTitle, openModal } from './Modal';
 
 export interface Options {
   title?: string;
   message: ReactNode;
-  modalType?: ModalTypeIcon;
+  modalType?: ModalType;
   buttons: ButtonsOptions;
 }
 

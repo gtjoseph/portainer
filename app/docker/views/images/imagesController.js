@@ -1,6 +1,6 @@
 import _ from 'lodash-es';
 import { PorImageRegistryModel } from 'Docker/models/porImageRegistry';
-import { ModalTypeIcon } from '@/portainer/services/modal.service/utils';
+import { ModalType } from '@/portainer/services/modal.service/types';
 import { confirmImageExport } from '@/react/docker/images/common/ConfirmExportModal';
 
 angular.module('portainer.docker').controller('ImagesController', [
@@ -164,7 +164,7 @@ angular.module('portainer.docker').controller('ImagesController', [
 function confirmImageForceRemoval(callback) {
   confirm({
     title: 'Are you sure?',
-    modalType: ModalTypeIcon.Destructive,
+    modalType: ModalType.Destructive,
     message: 'Forcing the removal of the image will remove the image even if it has multiple tags or if it is used by stopped containers.',
     buttons: {
       confirm: {

@@ -1,11 +1,12 @@
 import sanitize from 'sanitize-html';
 
-import { confirmButtons, ModalTypeIcon } from './utils';
+import { confirmButtons } from './utils';
 import {
   ConfirmAsyncOptions,
   ConfirmCallback,
   openConfirm,
 } from './ConfirmModal';
+import { ModalType } from './types';
 
 interface ConfirmOptions extends ConfirmAsyncOptions {
   callback: ConfirmCallback;
@@ -14,7 +15,7 @@ interface ConfirmOptions extends ConfirmAsyncOptions {
 export function confirmAsync(options: ConfirmAsyncOptions) {
   return openConfirm({
     ...options,
-    modalType: options.modalType || ModalTypeIcon.Warn,
+    modalType: options.modalType || ModalType.Warn,
   });
 }
 
@@ -35,7 +36,7 @@ export function confirmDestructiveAsync(
 ) {
   return confirmAsync({
     ...options,
-    modalType: ModalTypeIcon.Destructive,
+    modalType: ModalType.Destructive,
   });
 }
 
@@ -69,7 +70,7 @@ export function confirmDeletion(message: string, callback: ConfirmCallback) {
   const messageSanitized = sanitize(message);
   confirm({
     title: 'Are you sure?',
-    modalType: ModalTypeIcon.Destructive,
+    modalType: ModalType.Destructive,
     message: messageSanitized,
     buttons: {
       confirm: {

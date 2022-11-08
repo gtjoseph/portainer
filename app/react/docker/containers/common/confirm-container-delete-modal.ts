@@ -1,5 +1,5 @@
 import { openSwitchPrompt } from '@/portainer/services/modal.service/prompt';
-import { ModalTypeIcon } from '@/portainer/services/modal.service/utils';
+import { ModalType } from '@/portainer/services/modal.service/types';
 
 export async function confirmContainerDeletion(title: string) {
   const result = await openSwitchPrompt(
@@ -7,7 +7,7 @@ export async function confirmContainerDeletion(title: string) {
     'Automatically remove non-persistent volumes',
     {
       button: { color: 'danger', label: 'Remove' },
-      modalType: ModalTypeIcon.Destructive,
+      modalType: ModalType.Destructive,
     }
   );
 
