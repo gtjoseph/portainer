@@ -1,5 +1,3 @@
-import sanitize from 'sanitize-html';
-
 import { ModalType } from '@@/modals';
 import {
   ConfirmAsyncOptions,
@@ -47,12 +45,10 @@ export function confirmWebEditorDiscard() {
 }
 
 export function confirmDeletionAsync(message: string) {
-  const messageSanitized = sanitize(message);
-
   return openConfirm({
     title: 'Are you sure?',
     modalType: ModalType.Destructive,
-    message: messageSanitized,
+    message,
     buttons: {
       confirm: {
         label: 'Remove',
@@ -71,12 +67,10 @@ export async function confirmDeletion(
 }
 
 export function confirmUpdate(message: string, callback: ConfirmCallback) {
-  const messageSanitized = sanitize(message);
-
   confirm({
     title: 'Are you sure?',
     modalType: ModalType.Warn,
-    message: messageSanitized,
+    message,
     buttons: {
       confirm: {
         label: 'Update',

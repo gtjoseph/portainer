@@ -1,4 +1,3 @@
-import sanitize from 'sanitize-html';
 import { ResourceControlType } from '@/react/portainer/access-control/types';
 import { AccessControlFormData } from 'Portainer/components/accessControlForm/porAccessControlFormModel';
 import { FeatureId } from '@/react/portainer/feature-flags/enums';
@@ -164,15 +163,13 @@ angular.module('portainer.app').controller('StackController', [
     };
 
     $scope.detachStackFromGit = function () {
-      confirmDetachment(
-        'Do you want to detach the stack from Git?'.then(function onConfirm(confirmed) {
-          if (!confirmed) {
-            return;
-          }
+      confirmDetachment().then(function onConfirm(confirmed) {
+        if (!confirmed) {
+          return;
+        }
 
-          $scope.deployStack();
-        })
-      );
+        $scope.deployStack();
+      });
     };
 
     function migrateStack(name, targetEndpointId) {
@@ -502,12 +499,11 @@ angular.module('portainer.app').controller('StackController', [
   },
 ]);
 
-function confirmDetachment(message) {
-  const messageSanitized = sanitize(message);
+function confirmDetachment() {
   return confirmAsync({
     modalType: ModalType.Warn,
     title: 'Are you sure?',
-    message: messageSanitized,
+    message: 'Do you want to detach the stack from Git?',
     buttons: {
       confirm: {
         label: 'Detach',
