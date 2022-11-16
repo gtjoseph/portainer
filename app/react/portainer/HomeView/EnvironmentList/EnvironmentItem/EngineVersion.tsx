@@ -14,7 +14,9 @@ export function EngineVersion({ environment }: { environment: Environment }) {
       return <DockerEngineVersion snapshot={environment.Snapshots[0]} />;
     case PlatformType.Kubernetes:
       return (
-        <KubernetesEngineVersion snapshots={environment.Kubernetes.Snapshots} />
+        <KubernetesEngineVersion
+          snapshot={environment.Kubernetes.Snapshots?.[0]}
+        />
       );
     default:
       return null;
@@ -34,15 +36,13 @@ function DockerEngineVersion({ snapshot }: { snapshot?: DockerSnapshot }) {
 }
 
 function KubernetesEngineVersion({
-  snapshots,
+  snapshot,
 }: {
-  snapshots?: Array<KubernetesSnapshot> | null;
+  snapshot?: KubernetesSnapshot;
 }) {
-  if (!snapshots || snapshots.length === 0) {
+  if (!snapshot) {
     return null;
   }
-
-  const snapshot = snapshots[0];
 
   return (
     <span className="small text-muted vertical-center">
