@@ -17,7 +17,7 @@ function DeployTypePrompt({
   const [deployType, setDeployType] = useState(DeployType.FDO);
 
   return (
-    <Modal onSubmit={() => onSubmit()} aria-label="deploy type prompt">
+    <Modal onDismiss={() => onSubmit()} aria-label="deploy type prompt">
       <Modal.Header title="How would you like to add an Edge Device?" />
 
       <Modal.Body>

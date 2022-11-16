@@ -15,7 +15,10 @@ function ConfirmRecreationModal({ onSubmit, cannotPullImage }: Props) {
   const [pullLatest, setPullLatest] = useState(false);
 
   return (
-    <Modal onSubmit={onSubmit} aria-label="confirm recreate container modal">
+    <Modal
+      onDismiss={() => onSubmit()}
+      aria-label="confirm recreate container modal"
+    >
       <Modal.Header title="Are you sure?" modalType={ModalType.Destructive} />
 
       <Modal.Body>

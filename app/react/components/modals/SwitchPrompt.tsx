@@ -28,7 +28,7 @@ function SwitchPrompt({
   const [value, setValue] = useState(defaultValue);
 
   return (
-    <Modal onSubmit={() => onSubmit()} aria-label={title}>
+    <Modal onDismiss={() => onSubmit()} aria-label={title}>
       <Modal.Header title={title} modalType={modalType} />
 
       <Modal.Body>

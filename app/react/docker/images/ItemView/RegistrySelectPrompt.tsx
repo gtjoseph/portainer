@@ -18,7 +18,7 @@ function RegistrySelectPrompt({ onSubmit, defaultValue, registries }: Props) {
   const options = registries2Options(registries);
 
   return (
-    <Modal onSubmit={() => onSubmit()} aria-label={title}>
+    <Modal onDismiss={() => onSubmit()} aria-label={title}>
       <Modal.Header title={title} />
 
       <Modal.Body>

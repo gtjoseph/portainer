@@ -24,7 +24,7 @@ function UpdateIngressPrompt({
   const inputLabel = `Update ingress ${rulePlural} to match the service port changes`;
 
   return (
-    <Modal onSubmit={() => onSubmit()} aria-label={title}>
+    <Modal onDismiss={() => onSubmit()} aria-label={title}>
       <Modal.Header title={title} />
 
       <Modal.Body>

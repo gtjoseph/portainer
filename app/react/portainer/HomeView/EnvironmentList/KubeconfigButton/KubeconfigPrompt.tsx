@@ -50,7 +50,7 @@ export function KubeconfigPrompt({
   const isAllPageSelected = environments.every((env) => selection[env.Id]);
 
   return (
-    <Modal aria-label="Kubeconfig View" onSubmit={onClose}>
+    <Modal aria-label="Kubeconfig View" onDismiss={onClose}>
       <Modal.Header title="Download kubeconfig file" />
 
       <Modal.Body>
