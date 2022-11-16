@@ -78,6 +78,7 @@ export function createMockEnvironment(): Environment {
         AllowNoneIngressClass: false,
       },
     },
+    Nomad: { Snapshots: [] },
     EdgeKey: '',
     Id: 3,
     UserTrusted: false,
@@ -100,5 +101,6 @@ export function createMockEnvironment(): Environment {
     },
     Gpus: [],
     Agent: { Version: '1.0.0' },
+    EnableImageNotification: false,
   };
 }
