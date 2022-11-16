@@ -1,4 +1,3 @@
-
 import { addPlural } from '@/portainer/helpers/strings';
 import { DockerSnapshot } from '@/react/docker/snapshots/types';
 
