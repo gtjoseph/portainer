@@ -10,6 +10,7 @@ import {
   PlatformType,
 } from '@/react/portainer/environments/types';
 import {
+  getDashboardRoute,
   getPlatformType,
   isEdgeEnvironment,
 } from '@/react/portainer/environments/utils';
@@ -38,7 +39,7 @@ export function EnvironmentItem({ environment, onClick, groupName }: Props) {
   const snapshotTime = getSnapshotTime(environment);
 
   const tags = useEnvironmentTagNames(environment.TagIds);
-  const route = getRoute(environment);
+  const route = getDashboardRoute(environment);
 
   return (
     <button
@@ -170,24 +171,5 @@ function getSnapshotTime(environment: Environment) {
         : null;
     default:
       return null;
-  }
-}
-
-function getRoute(environment: Environment) {
-  if (isEdgeEnvironment(environment.Type) && !environment.EdgeID) {
-    return 'portainer.endpoints.endpoint';
-  }
-
-  const platform = getPlatformType(environment.Type);
-
-  switch (platform) {
-    case PlatformType.Azure:
-      return 'azure.dashboard';
-    case PlatformType.Docker:
-      return 'docker.dashboard';
-    case PlatformType.Kubernetes:
-      return 'kubernetes.dashboard';
-    default:
-      return '';
   }
 }
