@@ -1,7 +1,7 @@
 import { addPlural } from '@/portainer/helpers/strings';
 import { DockerSnapshot } from '@/react/docker/snapshots/types';
 
-import { EnvironmentStatsItem } from '@@/EnvironmentStatsItem';
+import { StatsItem } from '@@/StatsItem';
 
 interface Props {
   snapshot?: DockerSnapshot;
@@ -14,14 +14,14 @@ export function EnvironmentStatsDocker({ snapshot }: Props) {
 
   return (
     <>
-      <EnvironmentStatsItem
+      <StatsItem
         value={addPlural(snapshot.StackCount, 'stack')}
         icon="layers"
         featherIcon
       />
 
       {!!snapshot.Swarm && (
-        <EnvironmentStatsItem
+        <StatsItem
           value={addPlural(snapshot.ServiceCount, 'service')}
           icon="shuffle"
           featherIcon
@@ -34,19 +34,19 @@ export function EnvironmentStatsDocker({ snapshot }: Props) {
         healthy={snapshot.HealthyContainerCount}
         unhealthy={snapshot.UnhealthyContainerCount}
       />
-      <EnvironmentStatsItem
+      <StatsItem
         value={addPlural(snapshot.VolumeCount, 'volume')}
         icon="database"
         featherIcon
       />
-      <EnvironmentStatsItem
+      <StatsItem
         value={addPlural(snapshot.ImageCount, 'image')}
         icon="list"
         featherIcon
       />
 
       {snapshot.Swarm && (
-        <EnvironmentStatsItem
+        <StatsItem
           value={addPlural(snapshot.NodeCount, 'node')}
           icon="hard-drive"
           featherIcon
@@ -72,32 +72,32 @@ function ContainerStats({
   const containersCount = running + stopped;
 
   return (
-    <EnvironmentStatsItem
+    <StatsItem
       value={addPlural(containersCount, 'container')}
       icon="box"
       featherIcon
     >
       {containersCount > 0 && (
         <>
-          <EnvironmentStatsItem
+          <StatsItem
             value={running}
             icon="power"
             featherIcon
             iconClass="icon-success"
           />
-          <EnvironmentStatsItem
+          <StatsItem
             value={stopped}
             icon="power"
             featherIcon
             iconClass="icon-danger"
           />
-          <EnvironmentStatsItem
+          <StatsItem
             value={healthy}
             icon="heart"
             featherIcon
             iconClass="icon-success"
           />
-          <EnvironmentStatsItem
+          <StatsItem
             value={unhealthy}
             icon="heart"
             featherIcon
@@ -105,6 +105,6 @@ function ContainerStats({
           />
         </>
       )}
-    </EnvironmentStatsItem>
+    </StatsItem>
   );
 }

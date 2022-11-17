@@ -1,7 +1,7 @@
 import { NomadSnapshot } from '@/react/portainer/environments/types';
 import { addPlural } from '@/portainer/helpers/strings';
 
-import { EnvironmentStatsItem } from '@@/EnvironmentStatsItem';
+import { StatsItem } from '@@/StatsItem';
 
 interface Props {
   snapshot?: NomadSnapshot;
@@ -14,29 +14,29 @@ export function EnvironmentStatsNomad({ snapshot }: Props) {
 
   return (
     <>
-      <EnvironmentStatsItem
+      <StatsItem
         value={addPlural(snapshot.JobCount, 'job')}
         icon="list"
         featherIcon
       />
-      <EnvironmentStatsItem
+      <StatsItem
         value={addPlural(snapshot.GroupCount, 'group')}
         icon="svg-objectgroup"
       />
-      <EnvironmentStatsItem
+      <StatsItem
         value={addPlural(snapshot.TaskCount, 'task')}
         icon="box"
         featherIcon
       >
         {snapshot.TaskCount > 0 && (
           <>
-            <EnvironmentStatsItem
+            <StatsItem
               value={snapshot.RunningTaskCount}
               icon="power"
               featherIcon
               iconClass="icon-success"
             />
-            <EnvironmentStatsItem
+            <StatsItem
               value={snapshot.TaskCount - snapshot.RunningTaskCount}
               icon="power"
               featherIcon
@@ -44,9 +44,9 @@ export function EnvironmentStatsNomad({ snapshot }: Props) {
             />
           </>
         )}
-      </EnvironmentStatsItem>
+      </StatsItem>
 
-      <EnvironmentStatsItem
+      <StatsItem
         value={addPlural(snapshot.NodeCount, 'node')}
         icon="hard-drive"
         featherIcon
