@@ -17,6 +17,7 @@ import (
 	"github.com/portainer/portainer/api/crypto"
 	"github.com/portainer/portainer/api/http/client"
 	"github.com/portainer/portainer/api/internal/edge"
+	"github.com/portainer/portainer/api/internal/endpointutils"
 )
 
 type endpointCreatePayload struct {
@@ -243,6 +244,19 @@ func (handler *Handler) endpointCreate(w http.ResponseWriter, r *http.Request) *
 		relatedEdgeStacks := edge.EndpointRelatedEdgeStacks(endpoint, endpointGroup, edgeGroups, edgeStacks)
 		for _, stackID := range relatedEdgeStacks {
 			relationObject.EdgeStacks[stackID] = true
+		}
+	} else if endpointutils.IsKubernetesEndpoint(endpoint) {
+		err := handler.initialIngressClassDetection(endpoint)
+		if err != nil {
+			return err
+		}
+		err = handler.initialMetricsDetection(endpoint)
+		if err != nil {
+			return err
+		}
+		err = handler.initialStorageDetection(endpoint)
+		if err != nil {
+			return err
 		}
 	}
 
@@ -577,5 +591,118 @@ func (handler *Handler) storeTLSFiles(endpoint *portainer.Endpoint, payload *end
 		endpoint.TLSConfig.TLSKeyPath = keyPath
 	}
 
+	return nil
+}
+
+func (handler *Handler) initialIngressClassDetection(endpoint *portainer.Endpoint) *httperror.HandlerError {
+	cli, err := handler.K8sClientFactory.GetKubeClient(endpoint)
+	if err != nil {
+		return httperror.InternalServerError(
+			"Unable to create Kubernetes client",
+			err,
+		)
+	}
+	controllers, err := cli.GetIngressControllers()
+	if err != nil {
+		return httperror.InternalServerError(
+			"Failed to fetch ingressclasses",
+			err,
+		)
+	}
+
+	existingClasses := endpoint.Kubernetes.Configuration.IngressClasses
+	var updatedClasses []portainer.KubernetesIngressClassConfig
+	for i := range controllers {
+		controllers[i].Availability = true
+		if controllers[i].ClassName != "none" {
+			controllers[i].New = true
+		}
+
+		var updatedClass portainer.KubernetesIngressClassConfig
+		updatedClass.Name = controllers[i].ClassName
+		updatedClass.Type = controllers[i].Type
+
+		for _, existingClass := range existingClasses {
+			if controllers[i].ClassName != existingClass.Name {
+				continue
+			}
+			controllers[i].New = false
+			controllers[i].Availability = !existingClass.GloballyBlocked
+			updatedClass.GloballyBlocked = existingClass.GloballyBlocked
+			updatedClass.BlockedNamespaces = existingClass.BlockedNamespaces
+		}
+		updatedClasses = append(updatedClasses, updatedClass)
+	}
+
+	endpoint.Kubernetes.Configuration.IngressClasses = updatedClasses
+	err = handler.DataStore.Endpoint().UpdateEndpoint(
+		portainer.EndpointID(endpoint.ID),
+		endpoint,
+	)
+	if err != nil {
+		return httperror.InternalServerError(
+			"Unable to store found IngressClasses inside the database",
+			err,
+		)
+	}
+	return nil
+}
+
+func (handler *Handler) initialMetricsDetection(endpoint *portainer.Endpoint) *httperror.HandlerError {
+	cli, err := handler.K8sClientFactory.GetKubeClient(endpoint)
+	if err != nil {
+		return httperror.InternalServerError(
+			"Unable to create Kubernetes client",
+			err,
+		)
+	}
+	_, err = cli.GetMetrics()
+	if err != nil {
+		return httperror.InternalServerError(
+			"Unable to fetch metrics. Leaving metrics collection disabled.",
+			err,
+		)
+	}
+	endpoint.Kubernetes.Configuration.UseServerMetrics = true
+	err = handler.DataStore.Endpoint().UpdateEndpoint(
+		portainer.EndpointID(endpoint.ID),
+		endpoint,
+	)
+	if err != nil {
+		return httperror.InternalServerError(
+			"Unable to enable UseServerMetrics inside the database",
+			err,
+		)
+	}
+	return nil
+}
+
+func (handler *Handler) initialStorageDetection(endpoint *portainer.Endpoint) *httperror.HandlerError {
+	cli, err := handler.K8sClientFactory.GetKubeClient(endpoint)
+	if err != nil {
+		return httperror.InternalServerError(
+			"Unable to create Kubernetes client",
+			err,
+		)
+	}
+
+	storage, err := cli.GetStorage()
+	if err != nil {
+		return httperror.InternalServerError(
+			"Unable to fetch metrics. Leaving collection disabled.",
+			err,
+		)
+	}
+	endpoint.Kubernetes.Configuration.StorageClasses = storage
+	err = handler.DataStore.Endpoint().UpdateEndpoint(
+		portainer.EndpointID(endpoint.ID),
+		endpoint,
+	)
+	if err != nil {
+		return httperror.InternalServerError(
+			"Unable to enable UseServerMetrics inside the database",
+			err,
+		)
+	}
 	return nil
 }
