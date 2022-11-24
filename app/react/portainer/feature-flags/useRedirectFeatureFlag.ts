@@ -4,7 +4,6 @@ import { usePublicSettings } from '@/react/portainer/settings/queries';
 
 export enum FeatureFlag {
   EdgeRemoteUpdate = 'edgeRemoteUpdate',
-  BEUpgrade = 'beUpgrade',
 }
 
 export function useFeatureFlag(
