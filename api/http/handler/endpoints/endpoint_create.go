@@ -610,7 +610,6 @@ func (handler *Handler) initialIngressClassDetection(endpoint *portainer.Endpoin
 		)
 	}
 
-	existingClasses := endpoint.Kubernetes.Configuration.IngressClasses
 	var updatedClasses []portainer.KubernetesIngressClassConfig
 	for i := range controllers {
 		controllers[i].Availability = true
@@ -622,15 +621,6 @@ func (handler *Handler) initialIngressClassDetection(endpoint *portainer.Endpoin
 		updatedClass.Name = controllers[i].ClassName
 		updatedClass.Type = controllers[i].Type
 
-		for _, existingClass := range existingClasses {
-			if controllers[i].ClassName != existingClass.Name {
-				continue
-			}
-			controllers[i].New = false
-			controllers[i].Availability = !existingClass.GloballyBlocked
-			updatedClass.GloballyBlocked = existingClass.GloballyBlocked
-			updatedClass.BlockedNamespaces = existingClass.BlockedNamespaces
-		}
 		updatedClasses = append(updatedClasses, updatedClass)
 	}
 

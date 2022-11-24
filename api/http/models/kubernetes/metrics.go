@@ -5,9 +5,9 @@ type K8sMetrics struct {
 }
 
 type K8sMetricsResources struct {
-	Kind         string   `json:"kind,omitempty"`
-	Name         string   `json:"name,omitempty"`
-	Namespaced   bool     `json:"namespaced,omitempty"`
-	SingularName string   `json:"singular_name,omitempty"`
-	Verbs        []string `json:"verbs,omitempty"`
+	Kind         string   `json:"Kind,omitempty"`
+	Name         string   `json:"Name,omitempty"`
+	Namespaced   bool     `json:"Namespaced,omitempty"`
+	SingularName string   `json:"SingularName,omitempty"`
+	Verbs        []string `json:"Verbs,omitempty"`
 }
