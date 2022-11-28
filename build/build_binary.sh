@@ -1,6 +1,5 @@
-#!/bin/sh
-
-set -x
+#!/usr/bin/env bash
+set -euo pipefail
 
 mkdir -p dist
 
@@ -12,12 +11,12 @@ YARN_VERSION="0"
 WEBPACK_VERSION="0"
 GO_VERSION="0"
 
-cd api
+cd api || exit 1
 # the go get adds 8 seconds
 go get -t -d -v ./...
 
 # the build takes 2 seconds
-GOOS=$1 GOARCH=$2 CGO_ENABLED=0 go build \
+GOOS=${1:-$(go env GOOS)} GOARCH=${2:-$(go env GOARCH)} CGO_ENABLED=0 go build \
 	-trimpath \
 	--installsuffix cgo \
 	--ldflags "-s \
