@@ -1,8 +1,6 @@
 import { HelpCircle } from 'react-feather';
 
-import { TooltipWithChildren } from '../TooltipWithChildren';
-
-type Position = 'top' | 'right' | 'bottom' | 'left';
+import { TooltipWithChildren, Position } from '../TooltipWithChildren';
 
 export interface Props {
   position?: Position;
