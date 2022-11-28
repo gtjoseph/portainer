@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 import { FeatureId } from '@/react/portainer/feature-flags/enums';
 
 import { Button } from '@@/buttons';
@@ -5,23 +7,37 @@ import { TooltipWithChildren } from '@@/Tip/TooltipWithChildren';
 
 interface Props {
   featureId: FeatureId;
+  heading: string;
+  message: string;
+  buttonText: string;
+  className?: string;
+  icon?: ReactNode;
 }
-export function YAMLReplace({ featureId }: Props) {
+
+export function BEOnlyButton({
+  featureId,
+  heading,
+  message,
+  buttonText,
+  className,
+  icon,
+}: Props) {
   return (
     <TooltipWithChildren
-      className="float-right"
-      heading="Apply YAML changes"
+      className={className}
+      heading={heading}
       BEFeatureID={featureId}
-      message="Applies any changes that you make in the YAML editor by calling the Kubernetes API to patch the relevant resources. Any resource removals or unexpected resource additions that you make in the YAML will be ignored. Note that editing is disabled for resources in namespaces marked as system."
+      message={message}
     >
       <Button
+        icon={icon}
         type="button"
         color="warninglight"
         size="small"
         onClick={() => {}}
         disabled
       >
-        Apply changes
+        {buttonText}
       </Button>
     </TooltipWithChildren>
   );
