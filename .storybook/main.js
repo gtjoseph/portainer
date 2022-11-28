@@ -41,7 +41,7 @@ module.exports = {
 
     config.module.rules.unshift({
       test: /\.svg$/i,
-      issuer: /\.tsx?$/,
+      issuer: /\.(js|ts)(x)?$/,
       resourceQuery: /c/, // *.svg?c
       use: [{ loader: '@svgr/webpack', options: { icon: true } }],
     });
