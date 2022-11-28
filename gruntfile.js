@@ -25,13 +25,6 @@ module.exports = function (grunt) {
   grunt.initConfig({
     root: 'dist',
     distdir: 'dist/public',
-    binaries: {
-      dockerVersion: 'v20.10.9',
-      dockerComposePluginVersion: 'v2.10.2',
-      helmVersion: 'v3.9.3',
-      komposeVersion: 'v1.22.0',
-      kubectlVersion: 'v1.24.1',
-    },
     env: gruntConfig.env,
     clean: gruntConfig.clean,
     shell: gruntConfig.shell,
@@ -74,13 +67,7 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask('download_binaries', 'download_binaries:<platform>:<arch>', function (platform = 'linux', a = arch) {
-    grunt.task.run([
-      `shell:download_docker_binary:${platform}:${a}`,
-      `shell:download_docker_compose_binary:${platform}:${a}`,
-      `shell:download_helm_binary:${platform}:${a}`,
-      `shell:download_kompose_binary:${platform}:${a}`,
-      `shell:download_kubectl_binary:${platform}:${a}`,
-    ]);
+    grunt.task.run([`shell:download_binaries:${platform}:${a}`]);
   });
 };
 
@@ -115,11 +102,7 @@ gruntConfig.clean = {
 gruntConfig.shell = {
   build_binary: { command: shell_build_binary },
   build_binary_azuredevops: { command: shell_build_binary_azuredevops },
-  download_docker_binary: { command: shell_download_docker_binary },
-  download_helm_binary: { command: shell_download_helm_binary },
-  download_kompose_binary: { command: shell_download_kompose_binary },
-  download_kubectl_binary: { command: shell_download_kubectl_binary },
-  download_docker_compose_binary: { command: shell_download_docker_compose_binary },
+  download_binaries: { command: 'build/download_binaries.sh' },
   run_container: { command: shell_run_container },
   run_localserver: { command: shell_run_localserver, options: { async: true } },
   install_yarndeps: { command: shell_install_yarndeps },
@@ -190,64 +173,4 @@ function shell_run_localserver() {
 
 function shell_install_yarndeps() {
   return 'yarn';
-}
-
-function shell_download_docker_binary(platform, arch) {
-  const binaryVersion = '<%= binaries.dockerVersion %>';
-
-  return `
-    if [ -f dist/docker ] || [ -f dist/docker.exe ]; then
-      echo "docker binary exists";
-    else
-      build/download_docker_binary.sh ${platform} ${arch} ${binaryVersion};
-    fi
-  `;
-}
-
-function shell_download_docker_compose_binary(platform, arch) {
-  var binaryVersion = '<%= binaries.dockerComposePluginVersion %>';
-
-  return `
-    if [ -f dist/docker-compose.plugin ] || [ -f dist/docker-compose.plugin.exe ]; then
-    echo "docker compose binary exists";
-    else
-      build/download_docker_compose_binary.sh ${platform} ${arch} ${binaryVersion};
-    fi
-  `;
-}
-
-function shell_download_helm_binary(platform, arch) {
-  var binaryVersion = '<%= binaries.helmVersion %>';
-
-  return `
-    if [ -f dist/helm ] || [ -f dist/helm.exe ]; then
-    echo "helm binary exists";
-    else
-      build/download_helm_binary.sh ${platform} ${arch} ${binaryVersion};
-    fi
-  `;
-}
-
-function shell_download_kompose_binary(platform, arch) {
-  const binaryVersion = '<%= binaries.komposeVersion %>';
-
-  return `
-    if [ -f dist/kompose ] || [ -f dist/kompose.exe ]; then
-      echo "kompose binary exists";
-    else
-      build/download_kompose_binary.sh ${platform} ${arch} ${binaryVersion};
-    fi
-  `;
-}
-
-function shell_download_kubectl_binary(platform, arch) {
-  var binaryVersion = '<%= binaries.kubectlVersion %>';
-
-  return `
-    if [ -f dist/kubectl ] || [ -f dist/kubectl.exe ]; then
-      echo "kubectl binary exists";
-    else
-      build/download_kubectl_binary.sh ${platform} ${arch} ${binaryVersion};
-    fi
-  `;
 }
