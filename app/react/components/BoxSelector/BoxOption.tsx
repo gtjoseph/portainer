@@ -1,37 +1,41 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 import ReactTooltip from 'react-tooltip';
+import { Icon } from 'lucide-react';
 
-import './BoxSelectorItem.css';
+import styles from './BoxOption.module.css';
+import { BoxSelectorOption, Value } from './types';
 
-import { BoxSelectorOption } from './types';
-
-interface Props<T extends number | string> {
+interface Props<T extends Value> {
   radioName: string;
   option: BoxSelectorOption<T>;
-  onChange?(value: T): void;
-  selectedValue: T;
+  onSelect?(value: T): void;
+  isSelected(value: T): boolean;
   disabled?: boolean;
   tooltip?: string;
   className?: string;
   type?: 'radio' | 'checkbox';
+  checkIcon: Icon;
 }
 
-export function BoxOption<T extends number | string>({
+export function BoxOption<T extends Value>({
   radioName,
   option,
-  onChange = () => {},
-  selectedValue,
+  onSelect = () => {},
+  isSelected,
   disabled,
   tooltip,
   className,
   type = 'radio',
   children,
+  checkIcon: Check,
 }: PropsWithChildren<Props<T>>) {
   const tooltipId = `box-option-${radioName}-${option.id}`;
+  const selected = isSelected(option.value);
+
   return (
     <div
-      className={clsx('box-selector-item', className)}
+      className={clsx(styles.root, className)}
       data-tip
       data-for={tooltipId}
       tooltip-append-to-body="true"
@@ -42,15 +46,28 @@ export function BoxOption<T extends number | string>({
         type={type}
         name={radioName}
         id={option.id}
-        checked={option.value === selectedValue}
-        value={option.value}
+        checked={selected}
+        value={option.value.toString()}
         disabled={disabled}
-        onChange={() => onChange(option.value)}
+        onChange={() => onSelect(option.value)}
       />
 
       <label htmlFor={option.id} data-cy={`${radioName}_${option.value}`}>
         {children}
+
+        <div
+          className={clsx(
+            'absolute top-4 right-4 h-4 w-4 rounded-full border border-solid border-blue-8 text-white font-bold flex items-center justify-center',
+            {
+              'bg-white': !selected,
+              'bg-blue-8': selected,
+            }
+          )}
+        >
+          {selected && <Check className="feather" strokeWidth={3} />}
+        </div>
       </label>
+
       {tooltip && (
         <ReactTooltip
           place="bottom"

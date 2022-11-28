@@ -4,7 +4,6 @@ import darkmode from '@/assets/ico/theme/darkmode.svg?c';
 import lightmode from '@/assets/ico/theme/lightmode.svg?c';
 import highcontrastmode from '@/assets/ico/theme/highcontrastmode.svg?c';
 // general icons
-import checked from '@/assets/ico/checked.svg?c';
 import dataflow from '@/assets/ico/dataflow-1.svg?c';
 import git from '@/assets/ico/git.svg?c';
 import kube from '@/assets/ico/kube.svg?c';
@@ -49,7 +48,6 @@ export const SvgIcons = {
   lightmode,
   highcontrastmode,
   dataflow,
-  checked,
   dockericon,
   git,
   laptopcode,

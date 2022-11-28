@@ -34,6 +34,7 @@
   <!-- cron-input -->
   <!-- edge-job-method-select -->
   <div class="col-sm-12 form-section-title"> Edge job configuration </div>
+  <<<<<<< HEAD
   <div class="form-group"></div>
   <div class="form-group">
     <div class="col-sm-12">
@@ -61,6 +62,11 @@
       </div>
     </div>
   </div>
+  =======
+
+  <box-selector slim="true" radio-name="'configuration'" value="$ctrl.formValues.cronMethod" options="$ctrl.cronMethods" on-change="($ctrl.onCronMethodChange)"></box-selector>
+
+  >>>>>>> refactor(ui/box-selector): replace all selectors [EE-3856]
   <!-- !edge-job-method-select -->
   <!-- basic-edge-job -->
   <div ng-if="$ctrl.formValues.cronMethod === 'basic'">
@@ -154,34 +160,10 @@
   <!-- execution-method -->
   <div ng-if="!$ctrl.model.Id">
     <div class="col-sm-12 form-section-title"> Job content </div>
-    <div class="form-group">
-      <div class="col-sm-12">
-        <div class="boxselector_wrapper">
-          <div>
-            <input type="radio" id="method_editor" ng-model="$ctrl.formValues.method" value="editor" />
-            <label for="method_editor">
-              <div class="boxselector_header vertical-center">
-                <pr-icon icon="'edit'"></pr-icon>
-                Web editor
-              </div>
-              <p>Use our Web editor</p>
-            </label>
-          </div>
-          <div>
-            <input type="radio" id="method_upload" ng-model="$ctrl.formValues.method" value="upload" />
-            <label for="method_upload">
-              <div class="boxselector_header vertical-center">
-                <pr-icon icon="'upload'"></pr-icon>
-                Upload
-              </div>
-              <p>Upload from your computer</p>
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
+    <box-selector value="$ctrl.formValues.method" options="$ctrl.buildMethods" radio-name="buildMethod" on-change="($ctrl.onBuildMethodChange)" slim="true"></box-selector>
   </div>
   <!-- !execution-method -->
+
   <!-- web-editor -->
   <div ng-show="$ctrl.formValues.method === 'editor'">
     <div class="col-sm-12 form-section-title"> Web editor </div>

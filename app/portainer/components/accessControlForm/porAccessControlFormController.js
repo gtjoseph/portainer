@@ -21,6 +21,17 @@ angular.module('portainer.app').controller('porAccessControlFormController', [
     ctrl.availableTeams = [];
     ctrl.availableUsers = [];
 
+    ctrl.onChangeEnablement = onChangeEnablement;
+    ctrl.onChangeOwnership = onChangeOwnership;
+
+    function onChangeEnablement(enable) {
+      onChange({ AccessControlEnabled: enable });
+    }
+
+    function onChangeOwnership(ownership) {
+      onChange({ Ownership: ownership });
+    }
+
     function setOwnership(resourceControl, isAdmin) {
       if (isAdmin && resourceControl.Ownership === RCO.PRIVATE) {
         ctrl.formData.Ownership = RCO.RESTRICTED;
@@ -88,12 +99,6 @@ angular.module('portainer.app').controller('porAccessControlFormController', [
         .catch(function error(err) {
           Notifications.error('Failure', err, 'Unable to retrieve access control information');
         });
-
-      this.onChangeEnablement = function (enable) {
-        $scope.$evalAsync(() => {
-          ctrl.formData.AccessControlEnabled = enable;
-        });
-      };
     }
   },
 ]);

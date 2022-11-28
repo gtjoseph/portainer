@@ -2,12 +2,17 @@ import _ from 'lodash-es';
 import { confirmDestructiveAsync } from '@/portainer/services/modal.service/confirm';
 import { EdgeTypes } from '@/react/portainer/environments/types';
 import { getEnvironments } from '@/react/portainer/environments/environment.service';
+import { groupTypeOptions } from './group-type-options';
+import { tagOptions } from './tag-options';
 
 export class EdgeGroupFormController {
   /* @ngInject */
   constructor($async, $scope) {
     this.$async = $async;
     this.$scope = $scope;
+
+    this.groupTypeOptions = groupTypeOptions;
+    this.tagOptions = tagOptions;
 
     this.endpoints = {
       state: {
@@ -24,6 +29,9 @@ export class EdgeGroupFormController {
     this.getDynamicEndpointsAsync = this.getDynamicEndpointsAsync.bind(this);
     this.getDynamicEndpoints = this.getDynamicEndpoints.bind(this);
     this.onChangeTags = this.onChangeTags.bind(this);
+    this.onChangeDynamic = this.onChangeDynamic.bind(this);
+    this.onChangeModel = this.onChangeModel.bind(this);
+    this.onChangePartialMatch = this.onChangePartialMatch.bind(this);
 
     $scope.$watch(
       () => this.model,
@@ -36,10 +44,25 @@ export class EdgeGroupFormController {
     );
   }
 
-  onChangeTags(value) {
+  onChangeModel(model) {
     return this.$scope.$evalAsync(() => {
-      this.model.TagIds = value;
+      this.model = {
+        ...this.model,
+        ...model,
+      };
     });
+  }
+
+  onChangePartialMatch(value) {
+    return this.onChangeModel({ PartialMatch: value });
+  }
+
+  onChangeDynamic(value) {
+    this.onChangeModel({ Dynamic: value });
+  }
+
+  onChangeTags(value) {
+    this.onChangeModel({ TagIds: value });
   }
 
   associateEndpoint(endpoint) {
