@@ -33,7 +33,7 @@ module.exports = function (grunt) {
   });
 
   grunt.task.registerTask('devopsbuild', 'devopsbuild:<platform>:<arch>:<env>', function (platform, a = arch, env = 'prod') {
-    grunt.task.run([`shell:deveops:${platform}:${a}:${env}`]);
+    grunt.task.run([`shell:devops:${platform}:${a}:${env}`]);
   });
 
   grunt.task.registerTask('download_binaries', 'download_binaries:<platform>:<arch>', function (platform = 'linux', a = arch) {
